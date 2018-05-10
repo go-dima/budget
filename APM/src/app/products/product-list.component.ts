@@ -15,7 +15,8 @@ export class ProductListComponent
     showImage: boolean = false;
     products: IProduct[];
     filteredProducts: IProduct[];
-    
+    errorMessage: string;
+
     _listFilter: string;
     get listFilter(): string {
         return this._listFilter;
@@ -25,8 +26,7 @@ export class ProductListComponent
         this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
     }
 
-    constructor(private _productService: ProductService) {
-    }
+    constructor(private _productService: ProductService) { }
 
     toggleImage(): void {
         this.showImage = !this.showImage;
@@ -34,8 +34,13 @@ export class ProductListComponent
 
     ngOnInit(): void {
         console.log("I'm in OnInit!");
-        this.products = this._productService.getProducts();
-        this.filteredProducts = this.products;        
+        this._productService.getHttpProducts().subscribe(
+            products => {
+                this.products = products,
+                this.filteredProducts = this.products;
+            },
+            error => this.errorMessage = <any>error
+        );
     }
 
     performFilter(filterBy: string): IProduct[] {

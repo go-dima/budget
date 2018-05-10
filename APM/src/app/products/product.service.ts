@@ -1,9 +1,28 @@
 import { Injectable } from "@angular/core";
 import { IProduct } from "./product";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class ProductService {
-    getProducts(): IProduct[]{
+    private _productUrl = './api/products/products.json';
+
+    constructor(private _http: HttpClient) {}
+
+    getHttpProducts(): Observable<IProduct[]>{
+        return this._http.get<IProduct[]>(this._productUrl)
+                   .do(data => console.log('All: ' + JSON.stringify(data)))
+                   .catch(this.handleError);
+    }
+
+    handleError(err: HttpErrorResponse) {
+        console.log(err.message);
+        return Observable.throw(err.message);
+    }
+
+    getStaticProducts(): IProduct[]{
         return [
             {
                 "productId": 1,
