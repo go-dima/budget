@@ -2,22 +2,31 @@
     {
         "Account": "Alice",
         "Date": "08/06/2017",
-        "Name": "הכנסה",
+        "Description": "",
+        "Category": "הכנסה",
         "Reference": "171717",
-        "Amount": 2000
+        "Amount": 2000,
+        "Balance": 0,
+        "Comments": ""
     },
     {
         "Account": "Bob",
         "Date": "21/07/2017",
-        "Name": "הכנסה",
+        "Description": "",
+        "Category": "הכנסה",
         "Reference": "68854",
-        "Amount": 1000
+        "Amount": 1000,
+        "Balance": 0,
+        "Comments": ""
     },
     {
         "Account": "Bob",
         "Date": "02/02/2017",
-        "Name": "אשראי",
+        "Description": "",
+        "Category": "אשראי",
         "Reference": "3554",
-        "Amount": -200
+        "Amount": -200,
+        "Balance": 0,
+        "Comments": ""
     }
 ]
