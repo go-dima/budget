@@ -3,18 +3,18 @@
       {{pageTitle}}
   </div>
   <div class='panel-body'>
-      <!-- <div class='row'>
+      <div class='row'>
           <div class='col-md-2'>Filter by:</div>
           <div class='col-md-4'>
               <input type="text"
                      [(ngModel)]='listFilter'/>
           </div>
-      </div> -->
-      <!-- <div class='row'>
+      </div>
+      <div class='row'>
           <div class='col-md-6'>
               <h3>Filtered by: {{listFilter}}</h3>
           </div>
-      </div> -->
+      </div>
       <div class='table-responsive'>
           <table class='table' *ngIf='transactions && transactions.length'>
               <thead>
@@ -29,12 +29,12 @@
               </thead>
               <tbody>
                   <tr *ngFor='let transaction of filteredTransactions'>
-                      <td>{{ transaction.Account }} </td>
-                      <td>{{ transaction.Date }}</td>
-                      <td>{{ transaction.Description }}</td>
-                      <td>{{ transaction.Category}}</td>
-                      <td>{{ transaction.Reference }}</td>
-                      <td>{{ transaction.Amount | currency: 'ILS':true:'1.2-2'}}</td>
+                      <td>{{ transaction.account }} </td>
+                      <td>{{ transaction.date }}</td>
+                      <td>{{ transaction.description }}</td>
+                      <td>{{ transaction.category}}</td>
+                      <td>{{ transaction.reference }}</td>
+                      <td>{{ transaction.amount | currency: 'ILS':true:'1.2-2'}}</td>
                   </tr>
               </tbody>
           </table>

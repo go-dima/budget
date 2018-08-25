@@ -13,6 +13,15 @@ export class TransactionsComponent implements OnInit {
   filteredTransactions: ITransaction[];
   errorMessage: string;
 
+  _listFilter: string;
+  get listFilter(): string {
+      return this._listFilter;
+  }
+  set listFilter(value: string) {
+      this._listFilter = value;
+      this.filteredTransactions = this.listFilter ? this.performFilter(this.listFilter) : this.transactions;
+  }
+
   constructor(private _transactionsService: TransactiosService) { }
 
   ngOnInit() {
@@ -24,5 +33,11 @@ export class TransactionsComponent implements OnInit {
         },
         error => this.errorMessage = <any>error
     );
+  }
+
+  performFilter(filterBy: string): ITransaction[] {
+      filterBy = filterBy.toLocaleLowerCase();
+      return this.transactions.filter((transaction: ITransaction) =>
+            transaction.account.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 }
