@@ -1,6 +1,9 @@
-import { ITransaction } from "./transaction";
+import { ITransaction } from "./ITransaction";
+import { IAccountCheckbox } from "./IAccountCheckbox";
 import { TransactiosService } from "./transactions.service";
 import { Component, OnInit } from "@angular/core";
+import * as _ from 'lodash';
+import { IcuPlaceholder } from "@angular/compiler/src/i18n/i18n_ast";
 
 @Component({
   selector: 'pm-transactions',
@@ -11,6 +14,7 @@ export class TransactionsComponent implements OnInit {
   pageTitle: string = "Transactions List";
   transactions: ITransaction[];
   filteredTransactions: ITransaction[];
+  accounts: IAccountCheckbox[];
   errorMessage: string;
 
   _listFilter: string;
@@ -30,14 +34,19 @@ export class TransactionsComponent implements OnInit {
       transactions => {
             this.transactions = transactions,
             this.filteredTransactions = this.transactions;
+            this.accounts = _.uniqBy(this.transactions, 'account').map(this.transactionToAccount);
         },
         error => this.errorMessage = <any>error
     );
   }
 
+  transactionToAccount(transaction: ITransaction): IAccountCheckbox {
+      return { name: transaction.account, isChecked: true };
+  }
+
   performFilter(filterBy: string): ITransaction[] {
       filterBy = filterBy.toLocaleLowerCase();
       return this.transactions.filter((transaction: ITransaction) =>
-            transaction.account.toLocaleLowerCase().indexOf(filterBy) !== -1);
+            transaction.category.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 }
