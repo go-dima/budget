@@ -3,7 +3,6 @@ import { IAccountCheckbox } from "./IAccountCheckbox";
 import { TransactiosService } from "./transactions.service";
 import { Component, OnInit } from "@angular/core";
 import * as _ from 'lodash';
-import { IcuPlaceholder } from "@angular/compiler/src/i18n/i18n_ast";
 
 @Component({
   selector: 'pm-transactions',
@@ -15,6 +14,7 @@ export class TransactionsComponent implements OnInit {
   transactions: ITransaction[];
   filteredTransactions: ITransaction[];
   accounts: IAccountCheckbox[];
+  displayedAccounts: string[];
   errorMessage: string;
 
   _listFilter: string;
@@ -23,7 +23,7 @@ export class TransactionsComponent implements OnInit {
   }
   set listFilter(value: string) {
       this._listFilter = value;
-      this.filteredTransactions = this.listFilter ? this.performFilter(this.listFilter) : this.transactions;
+      this.performFilter(this.listFilter);
   }
 
   constructor(private _transactionsService: TransactiosService) { }
@@ -44,9 +44,23 @@ export class TransactionsComponent implements OnInit {
       return { name: transaction.account, isChecked: true };
   }
 
-  performFilter(filterBy: string): ITransaction[] {
-      filterBy = filterBy.toLocaleLowerCase();
-      return this.transactions.filter((transaction: ITransaction) =>
+  performFilter(filterBy: string) {
+      let byAccount = this.transactions.filter((transaction: ITransaction) =>
+                        this.displayedAccounts.includes(transaction.account));
+
+      this.filteredTransactions = this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount;
+    }
+    
+  applyCaregoryFilter(toFilter: ITransaction[], filterBy: string): ITransaction[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return toFilter.filter((transaction: ITransaction) =>
             transaction.category.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  }
+
+  selectedAccountsChanged(event: any) {
+    this.displayedAccounts = this.accounts.filter((account: IAccountCheckbox) => account.isChecked)
+                                          .map(account => account.name);
+    console.log(this.displayedAccounts);
+    this.performFilter(this.listFilter);
   }
 }
