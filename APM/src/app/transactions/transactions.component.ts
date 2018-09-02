@@ -57,10 +57,9 @@ export class TransactionsComponent implements OnInit {
             transaction.category.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
-  selectedAccountsChanged(event: any) {
-    this.displayedAccounts = this.accounts.filter((account: IAccountCheckbox) => account.isChecked)
-                                          .map(account => account.name);
-    console.log(this.displayedAccounts);
+  selectedAccountsChanged(selectedAccounts: string[]) {
+    this.displayedAccounts = selectedAccounts;
+    // console.log(this.displayedAccounts);
     this.performFilter(this.listFilter);
   }
 }

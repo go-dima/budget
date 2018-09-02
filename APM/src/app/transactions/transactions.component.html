@@ -3,11 +3,9 @@
       {{pageTitle}}
   </div>
   <div class='panel-body'>
-      <label *ngFor='let account of accounts'>
-        <input type="checkbox" name="account"
-               value="{{account.name}}" [(ngModel)]="account.isChecked" (ngModelChange)="selectedAccountsChanged()"
-        > {{account.name}}
-      </label>
+      <pm-accounts-filter-component
+            (accountsSelected)=selectedAccountsChanged($event) >
+      </pm-accounts-filter-component>
       <div class='row'>
           <div class='col-md-2'>Filter by:</div>
           <div class='col-md-4'>
