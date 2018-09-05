@@ -2,7 +2,7 @@ import { ITransaction } from "../ITransaction";
 import { IAccountCheckbox } from "../IAccountCheckbox";
 import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
-import * as _ from 'lodash';
+import { uniqBy, map } from 'lodash';
 
 @Component({
   selector: 'pm-transactions',
@@ -33,7 +33,7 @@ export class TransactionsComponent implements OnInit {
       transactions => {
             this.transactions = transactions,
             this.filteredTransactions = this.transactions;
-            this.accounts = _.uniqBy(this.transactions, 'account').map(this.transactionToAccount);
+            this.accounts = uniqBy(this.transactions, 'account').map(this.transactionToAccount);
         },
         error => this.errorMessage = <any>error
     );

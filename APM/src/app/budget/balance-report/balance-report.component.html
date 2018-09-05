@@ -1,0 +1,30 @@
+<div clas="spanel panel-primary">
+  <div class="panel-heading">
+      {{pageTitle}}
+  </div>
+  <div class='panel-body'>
+      <pm-accounts-filter-component
+            (accountsSelected)=selectedAccountsChanged($event) >
+      </pm-accounts-filter-component>
+      <div class='table-responsive'>
+          <table class='table' *ngIf='report && report.length'>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Income</th>
+                  <th>Expense</th>
+                  <th>Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor='let entry of report'>
+                      <td>{{ entry.key }}</td>
+                      <td>{{ entry.income }}</td>
+                      <td>{{ entry.expense }}</td>
+                      <td>{{ entry.balance }}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>

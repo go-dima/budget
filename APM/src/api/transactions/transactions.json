@@ -28,5 +28,45 @@
         "amount": -200,
         "balance": 0,
         "comments": ""
+    },
+    {
+        "account": "Alice",
+        "date": "02/06/2017",
+        "description": "",
+        "category": "ויזה",
+        "reference": "1527",
+        "amount": -1500,
+        "balance": 0,
+        "comments": ""
+    },
+    {
+        "account": "Alice",
+        "date": "25/06/2017",
+        "description": "",
+        "category": "ביטוח",
+        "reference": "99856",
+        "amount": -500,
+        "balance": 0,
+        "comments": ""
+    },
+    {
+        "account": "Bob",
+        "date": "01/07/2017",
+        "description": "",
+        "category": "ויזה",
+        "reference": "66584",
+        "amount": -3000,
+        "balance": 0,
+        "comments": ""
+    },
+    {
+        "account": "Bob",
+        "date": "21/02/2017",
+        "description": "",
+        "category": "ויזה",
+        "reference": "2214",
+        "amount": -1000,
+        "balance": 0,
+        "comments": ""
     }
 ]

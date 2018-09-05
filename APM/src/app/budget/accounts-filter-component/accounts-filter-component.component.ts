@@ -20,6 +20,7 @@ export class AccountsFilterComponentComponent{
     this._transactionsService.getHttpTransactions().subscribe(
       transactions => {
             this.accounts = _.uniqBy(transactions, 'account').map(this.transactionToAccount);
+            this.selectedAccountsChanged(null);
         },
         error => this.errorMessage = <any>error
     );
