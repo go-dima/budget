@@ -32,7 +32,6 @@ export class AccountsFilterComponentComponent{
   selectedAccountsChanged(event: any) {
     let displayedAccounts = this.accounts.filter((account: IAccountCheckbox) => account.isChecked)
                                           .map(account => account.name);
-    // console.log(displayedAccounts);
     this.accountsSelected.emit(displayedAccounts);
   }
 }

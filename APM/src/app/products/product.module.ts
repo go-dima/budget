@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ProductGuardService } from './product-guard.service';
 import { ProductService } from './product.service';
 import { SharedModule } from './../shared/shared.module';
-import { TransactionsComponent } from '../transactions/transactions.component';
+import { TransactionsComponent } from '../transactions/transactions-list/transactions-list.component';
 import { TransactiosService } from '../transactions/transactions.service';
 
 @NgModule({

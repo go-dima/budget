@@ -14,7 +14,7 @@ export class TransactiosService {
 
     getHttpTransactions(): Observable<ITransaction[]>{
         return this._http.get<ITransaction[]>(this._transactionsUrl)
-                   .do(data => console.log('All: ' + JSON.stringify(data)))
+                //    .do(data => console.log('All: ' + JSON.stringify(data)))
                    .catch(this.handleError);
     }
 

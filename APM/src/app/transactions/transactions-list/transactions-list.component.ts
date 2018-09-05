@@ -1,13 +1,13 @@
-import { ITransaction } from "./ITransaction";
-import { IAccountCheckbox } from "./IAccountCheckbox";
-import { TransactiosService } from "./transactions.service";
+import { ITransaction } from "../ITransaction";
+import { IAccountCheckbox } from "../IAccountCheckbox";
+import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
 import * as _ from 'lodash';
 
 @Component({
   selector: 'pm-transactions',
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.css']
+  templateUrl: './transactions-list.component.html',
+  styleUrls: ['./transactions-list.component.css']
 })
 export class TransactionsComponent implements OnInit {
   pageTitle: string = "Transactions List";
@@ -29,7 +29,6 @@ export class TransactionsComponent implements OnInit {
   constructor(private _transactionsService: TransactiosService) { }
 
   ngOnInit() {
-    console.log("TransactiosService OnInit!");
     this._transactionsService.getHttpTransactions().subscribe(
       transactions => {
             this.transactions = transactions,
@@ -59,7 +58,6 @@ export class TransactionsComponent implements OnInit {
 
   selectedAccountsChanged(selectedAccounts: string[]) {
     this.displayedAccounts = selectedAccounts;
-    // console.log(this.displayedAccounts);
     this.performFilter(this.listFilter);
   }
 }
