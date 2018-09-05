@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { IAccountCheckbox } from '../../transactions/IAccountCheckbox';
-import { TransactiosService } from '../../transactions/transactions.service';
-import { ITransaction } from '../../transactions/ITransaction';
+import { IAccountCheckbox } from '../IAccountCheckbox';
+import { TransactiosService } from '../transactions.service';
+import { ITransaction } from '../ITransaction';
 import * as _ from 'lodash';
 
 @Component({

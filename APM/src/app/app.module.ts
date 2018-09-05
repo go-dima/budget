@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { WelcomeComponent } from './home/welcome.component';
 import { ProductModule } from './products/product.module';
 import { RouterModule } from '@angular/router';
+import { BudgetModule } from './budget/budget.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' },
     ]),
     ProductModule,
+    BudgetModule,
   ],
   bootstrap: [AppComponent]
 })

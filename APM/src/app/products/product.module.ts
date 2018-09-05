@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { ProductGuardService } from './product-guard.service';
 import { ProductService } from './product.service';
 import { SharedModule } from './../shared/shared.module';
-import { TransactionsComponent } from '../transactions/transactions-list/transactions-list.component';
-import { TransactiosService } from '../transactions/transactions.service';
 
 @NgModule({
   imports: [
@@ -16,9 +14,7 @@ import { TransactiosService } from '../transactions/transactions.service';
       { path: 'products/:id',
         canActivate: [ ProductGuardService ],
         component: ProductDetailComponent },
-      { path: 'transactions', component: TransactionsComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-      { path: '**', redirectTo: 'welcome', pathMatch: 'full' },      
     ]),
     SharedModule
   ],
@@ -26,12 +22,10 @@ import { TransactiosService } from '../transactions/transactions.service';
     ProductListComponent,
     ProductDetailComponent,
     ConvertToSpacesPipe,
-    TransactionsComponent,
   ],
   providers: [
     ProductService,
     ProductGuardService,
-    TransactiosService
   ]
 })
 export class ProductModule { }
