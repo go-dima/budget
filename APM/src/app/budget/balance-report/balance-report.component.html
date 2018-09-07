@@ -6,11 +6,19 @@
       <pm-accounts-filter-component
             (accountsSelected)=selectedAccountsChanged($event) >
       </pm-accounts-filter-component>
+      <div>
+        <label class="list-group-item" *ngFor="let property of groupByProperties">
+          <input type="radio" [(ngModel)]="groupByProperty" name="groupBy"
+                 value="{{property}}" (change)="onGroupingChanged(property)"/> 
+          {{property}}
+        </label>
+      </div>
+      <br/>
       <div class='table-responsive'>
           <table class='table' *ngIf='report && report.length'>
               <thead>
                 <tr>
-                  <th>Month</th>
+                  <th>Group By</th>
                   <th>Income</th>
                   <th>Expense</th>
                   <th>Balance</th>

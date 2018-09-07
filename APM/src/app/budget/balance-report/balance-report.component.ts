@@ -12,8 +12,11 @@ import { IReportEntry } from '../IReportEntry';
 })
 export class BalanceReportComponent implements OnInit {
   accountGroups: Dictionary<ITransaction[]>;
+  selectedAccounts: string[];
   errorMessage: any;
   report: IReportEntry[] = [];
+  groupByProperties: string[] = ["date", "category"];
+  groupByProperty: string = "date";
 
   constructor(private _transactionsService: TransactiosService) { }
 
@@ -25,13 +28,23 @@ export class BalanceReportComponent implements OnInit {
   }
 
   selectedAccountsChanged(selectedAccounts: string[]) {
+    this.selectedAccounts = selectedAccounts;
+    this.generateReport();
+  }
+  
+  onGroupingChanged(property: any) {
+    this.generateReport();
+  }
+
+  private generateReport() {
     let self = this;
     self.report = [];
-    _.forEach(_.keys(this.accountGroups), function(key)   {
-      if (selectedAccounts.includes(key)) {
-        let monthlyGroups = _.groupBy(self.accountGroups[key], self.extractKey);
-        _.forEach(monthlyGroups, function(monthReport: ITransaction[], monthKey: string) {
-          _.forEach(monthReport, function(t: ITransaction) {
+    _.forEach(_.keys(this.accountGroups), function (key) {
+      if (self.selectedAccounts.includes(key)) {
+        let monthlyGroups = _.groupBy(self.accountGroups[key],
+                                      function(t: ITransaction) { return self.extractKey(t, self.groupByProperty); });
+        _.forEach(monthlyGroups, function (monthReport: ITransaction[], monthKey: string) {
+          _.forEach(monthReport, function (t: ITransaction) {
             self.addOrUpdate(self.report, monthKey, t.amount);
           });
         });
@@ -40,9 +53,11 @@ export class BalanceReportComponent implements OnInit {
     self.report = _.values(self.report);
   }
 
-  extractKey(t: ITransaction): string { 
-    return t.date.substring(3);
-    // return t.category;
+  extractKey(t: ITransaction, groupBy: string): string {
+    if (groupBy == "date") 
+      return t.date.substring(3);
+    else
+      return t.category;
   }
 
   addOrUpdate(report: IReportEntry[], key: string, value: number) {
