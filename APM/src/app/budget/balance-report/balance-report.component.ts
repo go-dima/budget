@@ -13,20 +13,23 @@ import { IReportEntry } from '../IReportEntry';
 export class BalanceReportComponent implements OnInit {
   accountGroups: Dictionary<ITransaction[]>;
   selectedAccounts: string[];
-  errorMessage: any;
   report: IReportEntry[] = [];
+  errorMessage: any;
   groupByProperties: string[] = ["date", "category"];
   groupByProperty: string = "date";
-
+  sortBy: string = 'key';
+  sortOrder: number = 0;
+  orderOptions: string[] = ['asc', 'desc'];
+  
   constructor(private _transactionsService: TransactiosService) { }
-
+  
   ngOnInit() {
     this._transactionsService.getHttpTransactions().subscribe(
       transactions => { this.accountGroups = _.groupBy(transactions, 'account'); },
       error => this.errorMessage = <any>error
     );
   }
-
+  
   selectedAccountsChanged(selectedAccounts: string[]) {
     this.selectedAccounts = selectedAccounts;
     this.generateReport();
@@ -35,7 +38,7 @@ export class BalanceReportComponent implements OnInit {
   onGroupingChanged(property: any) {
     this.generateReport();
   }
-
+  
   private generateReport() {
     let self = this;
     self.report = [];
@@ -51,27 +54,34 @@ export class BalanceReportComponent implements OnInit {
       }
     });
     self.report = _.values(self.report);
+    self.reorderReport(this.sortBy);
   }
-
+  
   extractKey(t: ITransaction, groupBy: string): string {
     if (groupBy == "date") 
-      return t.date.substring(3);
+    return t.date.substring(3);
     else
-      return t.category;
+    return t.category;
   }
-
+  
   addOrUpdate(report: IReportEntry[], key: string, value: number) {
     if (!_.has(report, key)) {
       report[key] = { key: key, income: 0, expense: 0, balance: 0};
     }
-
+    
     if (value > 0) {
       report[key].income += value;
     }
     else {
       report[key].expense += value; 
     }
-
+    
     report[key].balance += value;
+  }
+
+  reorderReport(sortBy: string): any {
+    this.sortBy = sortBy;
+    this.sortOrder = 1 - this.sortOrder;
+    this.report = _.orderBy(this.report, this.sortBy, this.orderOptions[this.sortOrder]);
   }
 }
