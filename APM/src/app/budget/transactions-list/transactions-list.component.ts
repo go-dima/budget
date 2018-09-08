@@ -1,5 +1,5 @@
 import { ITransaction } from "../ITransaction";
-import { IAccountCheckbox } from "../IAccountCheckbox";
+import { ICheckbox } from "../ICheckbox";
 import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
 import { uniqBy, map, orderBy } from 'lodash';
@@ -13,7 +13,7 @@ export class TransactionsComponent implements OnInit {
   pageTitle: string = "Transactions List";
   transactions: ITransaction[];
   filteredTransactions: ITransaction[];
-  accounts: IAccountCheckbox[];
+  accounts: ICheckbox[];
   displayedAccounts: string[];
   errorMessage: string;
 
@@ -39,7 +39,7 @@ export class TransactionsComponent implements OnInit {
     );
   }
 
-  transactionToAccount(transaction: ITransaction): IAccountCheckbox {
+  transactionToAccount(transaction: ITransaction): ICheckbox {
       return { name: transaction.account, isChecked: true };
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { IAccountCheckbox } from '../IAccountCheckbox';
+import { ICheckbox } from '../ICheckbox';
 import { TransactiosService } from '../transactions.service';
 import { ITransaction } from '../ITransaction';
 import * as _ from 'lodash';
@@ -10,7 +10,7 @@ import * as _ from 'lodash';
   styleUrls: ['./accounts-filter.component.css']
 })
 export class AccountsFilterComponent{
-  accounts: IAccountCheckbox[];
+  accounts: ICheckbox[];
   @Output() accountsSelected: EventEmitter<string[]> = new EventEmitter<string[]>();
   errorMessage: string;
 
@@ -26,12 +26,12 @@ export class AccountsFilterComponent{
     );
   }
 
-  transactionToAccount(transaction: ITransaction): IAccountCheckbox {
+  transactionToAccount(transaction: ITransaction): ICheckbox {
     return { name: transaction.account, isChecked: true };
   }
   
   selectedAccountsChanged(event: any) {
-    let displayedAccounts = this.accounts.filter((account: IAccountCheckbox) => account.isChecked)
+    let displayedAccounts = this.accounts.filter((account: ICheckbox) => account.isChecked)
                                           .map(account => account.name);
     this.accountsSelected.emit(displayedAccounts);
   }

@@ -1,0 +1,9 @@
+<div>
+  <label *ngFor='let prop of properties'>
+    <input type="checkbox" name="prop"
+           value="{{prop.name}}"
+           [(ngModel)]="prop.isChecked"
+           (ngModelChange)="selectedPropertiesChanged()">
+    {{prop.name}}
+  </label>
+</div>

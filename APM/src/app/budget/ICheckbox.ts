@@ -1,4 +1,4 @@
-export interface IAccountCheckbox {
+export interface ICheckbox {
     name: string;
     isChecked: boolean;
 }

@@ -4,12 +4,15 @@
   </div>
   <div class='panel-body'>
       <pm-accounts-filter
-            (accountsSelected)=selectedAccountsChanged($event) >
+          (accountsSelected)=selectedAccountsChanged($event) >
       </pm-accounts-filter>
+      <pm-property-filter
+          (selectedProperties)=selectedCategoriesChanged($event)>
+      </pm-property-filter>
       <div>
-        <label class="list-group-item" *ngFor="let property of groupByProperties">
+        <label class="prop-radio" *ngFor="let property of groupByProperties">
           <input type="radio" [(ngModel)]="groupByProperty" name="groupBy"
-                 value="{{property}}" (change)="onGroupingChanged(property)"/> 
+                 value="{{property}}" (change)="generateReport()"/> 
           {{property}}
         </label>
       </div>
@@ -18,10 +21,10 @@
           <table class='table' *ngIf='report && report.length'>
               <thead>
                 <tr>
-                  <th (click)='reorderReport("key")'>Group By</th>
-                  <th (click)='reorderReport("income")'>Income</th>
-                  <th (click)='reorderReport("expense")'>Expense</th>
-                  <th (click)='reorderReport("balance")'>Balance</th>
+                  <th class="sortable" (click)='reorderReport("key")'>Group By</th>
+                  <th class="sortable" (click)='reorderReport("income")'>Income</th>
+                  <th class="sortable" (click)='reorderReport("expense")'>Expense</th>
+                  <th class="sortable" (click)='reorderReport("balance")'>Balance</th>
                 </tr>
               </thead>
               <tbody>

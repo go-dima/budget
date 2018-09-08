@@ -5,6 +5,7 @@ import { TransactionsComponent } from './transactions-list/transactions-list.com
 import { TransactiosService } from './transactions.service';
 import { AccountsFilterComponent } from './accounts-filter/accounts-filter.component';
 import { BalanceReportComponent } from './balance-report/balance-report.component';
+import { PropertyFilterComponent } from './property-filter/property-filter.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { BalanceReportComponent } from './balance-report/balance-report.componen
     TransactionsComponent,
     AccountsFilterComponent,
     BalanceReportComponent,
+    PropertyFilterComponent,
   ],
   providers: [
     TransactiosService

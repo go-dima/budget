@@ -13,12 +13,13 @@ import { IReportEntry } from '../IReportEntry';
 export class BalanceReportComponent implements OnInit {
   accountGroups: Dictionary<ITransaction[]>;
   selectedAccounts: string[];
+  selectedCategories: string[];
   report: IReportEntry[] = [];
   errorMessage: any;
   groupByProperties: string[] = ["date", "category"];
   groupByProperty: string = "date";
   sortBy: string = 'key';
-  sortOrder: number = 0;
+  sortOrder: number = 1;
   orderOptions: string[] = ['asc', 'desc'];
   
   constructor(private _transactionsService: TransactiosService) { }
@@ -34,17 +35,19 @@ export class BalanceReportComponent implements OnInit {
     this.selectedAccounts = selectedAccounts;
     this.generateReport();
   }
-  
-  onGroupingChanged(property: any) {
+ 
+  selectedCategoriesChanged(selectedCategories: string[]) {
+    this.selectedCategories = selectedCategories;
     this.generateReport();
   }
-  
+
   private generateReport() {
     let self = this;
     self.report = [];
     _.forEach(_.keys(this.accountGroups), function (key) {
       if (self.selectedAccounts.includes(key)) {
-        let monthlyGroups = _.groupBy(self.accountGroups[key],
+        let filteredTransactions = self.filterCategories(self.accountGroups[key], self.selectedCategories);
+        let monthlyGroups = _.groupBy(filteredTransactions,
                                       function(t: ITransaction) { return self.extractKey(t, self.groupByProperty); });
         _.forEach(monthlyGroups, function (monthReport: ITransaction[], monthKey: string) {
           _.forEach(monthReport, function (t: ITransaction) {
@@ -55,6 +58,16 @@ export class BalanceReportComponent implements OnInit {
     });
     self.report = _.values(self.report);
     self.reorderReport(this.sortBy);
+  }
+
+  private filterCategories(toFilter: ITransaction[], selectedCategories: string[]): ArrayLike<ITransaction> {
+    if (!selectedCategories)
+      return toFilter;
+
+    let filtered = toFilter.filter(function(t: ITransaction) {
+      return selectedCategories.includes(t.category);
+    });
+    return filtered;
   }
   
   extractKey(t: ITransaction, groupBy: string): string {
