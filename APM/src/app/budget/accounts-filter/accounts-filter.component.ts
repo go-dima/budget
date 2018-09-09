@@ -5,11 +5,11 @@ import { ITransaction } from '../ITransaction';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'pm-accounts-filter-component',
-  templateUrl: './accounts-filter-component.component.html',
-  styleUrls: ['./accounts-filter-component.component.css']
+  selector: 'pm-accounts-filter',
+  templateUrl: './accounts-filter.component.html',
+  styleUrls: ['./accounts-filter.component.css']
 })
-export class AccountsFilterComponentComponent{
+export class AccountsFilterComponent{
   accounts: IAccountCheckbox[];
   @Output() accountsSelected: EventEmitter<string[]> = new EventEmitter<string[]>();
   errorMessage: string;

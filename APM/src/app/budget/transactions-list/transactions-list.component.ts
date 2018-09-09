@@ -2,7 +2,7 @@ import { ITransaction } from "../ITransaction";
 import { IAccountCheckbox } from "../IAccountCheckbox";
 import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
-import { uniqBy, map } from 'lodash';
+import { uniqBy, map, orderBy } from 'lodash';
 
 @Component({
   selector: 'pm-transactions',
@@ -47,7 +47,7 @@ export class TransactionsComponent implements OnInit {
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));
 
-      this.filteredTransactions = this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount;
+      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, 'date');
     }
     
   applyCaregoryFilter(toFilter: ITransaction[], filterBy: string): ITransaction[] {

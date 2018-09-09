@@ -59,9 +59,9 @@ export class BalanceReportComponent implements OnInit {
   
   extractKey(t: ITransaction, groupBy: string): string {
     if (groupBy == "date") 
-    return t.date.substring(3);
+      return t.date.substring(3);
     else
-    return t.category;
+      return t.category;
   }
   
   addOrUpdate(report: IReportEntry[], key: string, value: number) {

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { TransactionsComponent } from './transactions-list/transactions-list.component';
 import { TransactiosService } from './transactions.service';
-import { AccountsFilterComponentComponent } from './accounts-filter-component/accounts-filter-component.component';
+import { AccountsFilterComponent } from './accounts-filter/accounts-filter.component';
 import { BalanceReportComponent } from './balance-report/balance-report.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { BalanceReportComponent } from './balance-report/balance-report.componen
   ],
   declarations: [
     TransactionsComponent,
-    AccountsFilterComponentComponent,
+    AccountsFilterComponent,
     BalanceReportComponent,
   ],
   providers: [
