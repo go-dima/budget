@@ -21,7 +21,7 @@ export class BalanceReportComponent implements OnInit {
   sortBy: string = 'key';
   sortOrder: number = 1;
   orderOptions: string[] = ['asc', 'desc'];
-  
+
   constructor(private _transactionsService: TransactiosService) { }
   
   ngOnInit() {

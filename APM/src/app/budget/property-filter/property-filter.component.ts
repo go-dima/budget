@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { ICheckbox } from '../ICheckbox';
 import { TransactiosService } from '../transactions.service';
 import { ITransaction } from '../ITransaction';
@@ -10,16 +10,21 @@ import * as _ from 'lodash';
   styleUrls: ['./property-filter.component.css']
 })
 export class PropertyFilterComponent implements OnInit {
-  properties: ICheckbox[];
+  @Input() filterProperty: string;
   @Output() selectedProperties: EventEmitter<string[]> = new EventEmitter<string[]>();
+  properties: ICheckbox[];
   errorMessage: string;
 
   constructor(private _transactionsService: TransactiosService) { }
 
   ngOnInit() {
+    let self = this;
     this._transactionsService.getHttpTransactions().subscribe(
       transactions => {
-            this.properties = _.uniqBy(transactions, 'category').map(this.transactionToProperty);
+            this.properties = _.uniqBy(transactions, this.filterProperty)
+                               .map(function(transaction: ITransaction) {
+                                  return { name: _.get(transaction, self.filterProperty), isChecked: true };
+                               });
             this.selectedPropertiesChanged(null);
         },
         error => this.errorMessage = <any>error
@@ -27,7 +32,7 @@ export class PropertyFilterComponent implements OnInit {
   }
 
   transactionToProperty(transaction: ITransaction): ICheckbox {
-    return { name: transaction.category, isChecked: true };
+    return { name: _.get(transaction, this.filterProperty), isChecked: true };
   }
   
   selectedPropertiesChanged(event: any) {

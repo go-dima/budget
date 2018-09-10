@@ -3,10 +3,12 @@
       {{pageTitle}}
   </div>
   <div class='panel-body'>
-      <pm-accounts-filter
-          (accountsSelected)=selectedAccountsChanged($event) >
-      </pm-accounts-filter>
       <pm-property-filter
+          [filterProperty]='"account"'
+          (selectedProperties)=selectedAccountsChanged($event)>
+      </pm-property-filter>
+      <pm-property-filter
+          [filterProperty]='"category"'
           (selectedProperties)=selectedCategoriesChanged($event)>
       </pm-property-filter>
       <div>

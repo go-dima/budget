@@ -1,9 +1,0 @@
-<div>
-  <label *ngFor='let account of accounts'>
-    <input type="checkbox" name="account"
-           value="{{account.name}}"
-           [(ngModel)]="account.isChecked"
-           (ngModelChange)="selectedAccountsChanged()">
-    {{account.name}}
-  </label>
-</div>
