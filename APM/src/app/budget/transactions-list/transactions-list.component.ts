@@ -47,8 +47,12 @@ export class TransactionsComponent implements OnInit {
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));
 
-      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, 'date');
-    }
+      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, this.customDateKey);
+  }
+
+  customDateKey(transaction: ITransaction): string {
+    return transaction.date.substring(6) + transaction.date.substring(3,5) + transaction.date.substring(0,2);
+  }
     
   applyCaregoryFilter(toFilter: ITransaction[], filterBy: string): ITransaction[] {
     filterBy = filterBy.toLocaleLowerCase();
