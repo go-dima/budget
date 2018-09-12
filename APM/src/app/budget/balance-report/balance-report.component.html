@@ -27,14 +27,22 @@
                   <th class="sortable" (click)='reorderReport("income")'>Income</th>
                   <th class="sortable" (click)='reorderReport("expense")'>Expense</th>
                   <th class="sortable" (click)='reorderReport("balance")'>Balance</th>
+                  <th *ngIf='displayAverages()'>Income Average</th>
+                  <th *ngIf='displayAverages()'>Income Months</th>
+                  <th *ngIf='displayAverages()'>Expense Average</th>
+                  <th *ngIf='displayAverages()'>Expense Average</th>
                 </tr>
               </thead>
               <tbody>
                   <tr *ngFor="let entry of report">
                       <td>{{ entry.key }}</td>
-                      <td>{{ entry.income }}</td>
-                      <td>{{ entry.expense }}</td>
+                      <td>{{ entry.income.total }}</td>
+                      <td>{{ entry.expense.total }}</td>
                       <td>{{ entry.balance }}</td>
+                      <td *ngIf='displayAverages()'>{{ entry.income.average }}</td>
+                      <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
+                      <td *ngIf='displayAverages()'>{{ entry.expense.average }}</td>
+                      <td *ngIf='displayAverages()'>{{ entry.expense.occurences }}</td>
                   </tr>
               </tbody>
           </table>

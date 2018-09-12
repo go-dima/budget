@@ -79,14 +79,23 @@ export class BalanceReportComponent implements OnInit {
   
   addOrUpdate(report: IReportEntry[], key: string, value: number) {
     if (!_.has(report, key)) {
-      report[key] = { key: key, income: 0, expense: 0, balance: 0};
+      report[key] = { 
+                      key: key,
+                      income: {total: 0, average: 0, occurences: 0},
+                      expense: {total: 0, average: 0, occurences: 0},
+                      balance: 0
+                    };
     }
     
     if (value > 0) {
-      report[key].income += value;
+      report[key].income.total += value;
+      report[key].income.occurences++;
+      report[key].income.average = report[key].income.total / report[key].income.occurences;
     }
-    else {
-      report[key].expense += value; 
+    else if (value < 0){
+      report[key].expense.total += value;
+      report[key].expense.occurences++;
+      report[key].expense.average = report[key].expense.total / report[key].expense.occurences; 
     }
     
     report[key].balance += value;
@@ -96,5 +105,9 @@ export class BalanceReportComponent implements OnInit {
     this.sortBy = sortBy;
     this.sortOrder = 1 - this.sortOrder;
     this.report = _.orderBy(this.report, this.sortBy, this.orderOptions[this.sortOrder]);
+  }
+
+  displayAverages(): boolean {
+    return this.groupByProperty == "category";
   }
 }

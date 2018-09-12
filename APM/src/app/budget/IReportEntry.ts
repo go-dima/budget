@@ -1,6 +1,12 @@
 export interface IReportEntry {
     key: string;
-    income: number;
-    expense: number;
+    income: Data;
+    expense: Data;
     balance: number;
+}
+
+export interface Data {
+    total: number;
+    average: number;
+    occurences: number;
 }
