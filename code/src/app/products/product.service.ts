@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
 import { IProduct } from "./product";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+import {map, tap, catchError} from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {
@@ -13,19 +11,19 @@ export class ProductService {
     constructor(private _http: HttpClient) {}
 
     getHttpProducts(): Observable<IProduct[]>{
-        return this._http.get<IProduct[]>(this._productUrl)
-                   .do(data => console.log('All: ' + JSON.stringify(data)))
-                   .catch(this.handleError);
+        return this._http.get<IProduct[]>(this._productUrl).pipe(
+                   tap(data => console.log('All: ' + JSON.stringify(data))),
+                   catchError(this.handleError),);
     }
 
     getProduct(id: number): Observable<IProduct> {
-        return this.getHttpProducts()
-            .map((products: IProduct[]) => products.find(p => p.productId === id));
+        return this.getHttpProducts().pipe(
+            map((products: IProduct[]) => products.find(p => p.productId === id)));
     }
 
     handleError(err: HttpErrorResponse) {
         console.log(err.message);
-        return Observable.throw(err.message);
+        return observableThrowError(err.message);
     }
 
     getStaticProducts(): IProduct[]{
