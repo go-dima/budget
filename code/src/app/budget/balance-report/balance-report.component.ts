@@ -8,7 +8,7 @@ import { IReportEntry } from '../IReportEntry';
 @Component({
   selector: 'pm-balance-report',
   templateUrl: './balance-report.component.html',
-  styleUrls: ['./balance-report.component.css']
+  styleUrls: ['./balance-report.component.css'],
 })
 export class BalanceReportComponent implements OnInit {
   accountGroups: Dictionary<ITransaction[]>;
@@ -21,6 +21,7 @@ export class BalanceReportComponent implements OnInit {
   sortBy: string = 'key';
   sortOrder: number = 1;
   orderOptions: string[] = ['asc', 'desc'];
+  showAverages: boolean = false;
 
   constructor(private _transactionsService: TransactiosService) { }
   
@@ -108,6 +109,6 @@ export class BalanceReportComponent implements OnInit {
   }
 
   displayAverages(): boolean {
-    return this.groupByProperty == "category";
+    return this.groupByProperty == "category" && this.showAverages;
   }
 }

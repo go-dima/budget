@@ -18,6 +18,12 @@
           {{property}}
         </label>
       </div>
+      <label>
+        <input type="checkbox" name="show-averages"
+               value="Show Averages"
+               [(ngModel)]="showAverages">
+        Show Averages
+      </label>
       <br/>
       <div class='table-responsive'>
           <table class='table' *ngIf='report && report.length'>
@@ -39,9 +45,9 @@
                       <td>{{ entry.income.total }}</td>
                       <td>{{ entry.expense.total }}</td>
                       <td>{{ entry.balance }}</td>
-                      <td *ngIf='displayAverages()'>{{ entry.income.average }}</td>
+                      <td *ngIf='displayAverages()'>{{ entry.income.average | number: '1.0-2' }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
-                      <td *ngIf='displayAverages()'>{{ entry.expense.average }}</td>
+                      <td *ngIf='displayAverages()'>{{ entry.expense.average | number: '1.0-2' }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.expense.occurences }}</td>
                   </tr>
               </tbody>

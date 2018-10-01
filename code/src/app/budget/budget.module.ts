@@ -13,7 +13,7 @@ import { PropertyFilterComponent } from './property-filter/property-filter.compo
       { path: 'balance-report', component: BalanceReportComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
     ]),
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     TransactionsComponent,
