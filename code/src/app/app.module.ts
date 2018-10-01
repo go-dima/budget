@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WelcomeComponent } from './home/welcome.component';
-import { ProductModule } from './products/product.module';
 import { RouterModule } from '@angular/router';
 import { BudgetModule } from './budget/budget.module';
 
@@ -20,7 +19,6 @@ import { BudgetModule } from './budget/budget.module';
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' },
     ]),
-    ProductModule,
     BudgetModule,
   ],
   bootstrap: [AppComponent]
