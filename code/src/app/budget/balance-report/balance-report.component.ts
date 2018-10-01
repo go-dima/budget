@@ -11,6 +11,7 @@ import { IReportEntry } from '../IReportEntry';
   styleUrls: ['./balance-report.component.css'],
 })
 export class BalanceReportComponent implements OnInit {
+  pageTitle: string = "Budget Report";
   accountGroups: Dictionary<ITransaction[]>;
   selectedAccounts: string[];
   selectedCategories: string[];
