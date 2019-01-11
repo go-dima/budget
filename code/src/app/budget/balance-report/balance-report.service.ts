@@ -1,8 +1,9 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { IReportEntry } from "../IReportEntry";
 import { ITransaction } from "../ITransaction";
 import * as _ from "lodash";
 import { Dictionary } from "lodash";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class BalanceReportService {
@@ -10,7 +11,8 @@ export class BalanceReportService {
     selectedAccounts: string[];
     accountGroups: Dictionary<ITransaction[]>;
     selectedCategories: string[];
-    
+    generatedReport: EventEmitter<IReportEntry[]> = new EventEmitter<IReportEntry[]>();
+
     generateReport(groupByProperty: string): IReportEntry[] {
         let self = this;
         self.report = [];
@@ -28,6 +30,7 @@ export class BalanceReportService {
         });
         self.report = _.values(self.report);
         self.report = self.reorderReport('key', 'asc');
+        self.generatedReport.emit(self.report);
         return self.report;
       }
 
