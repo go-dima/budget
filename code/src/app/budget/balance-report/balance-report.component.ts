@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactiosService } from '../transactions.service';
-import { ITransaction } from '../ITransaction';
-import { Dictionary } from 'lodash';
 import * as _ from 'lodash';
 import { IReportEntry } from '../IReportEntry';
+import { BalanceReportService } from './balance-report.service';
 
 @Component({
   selector: 'pm-balance-report',
@@ -11,102 +10,45 @@ import { IReportEntry } from '../IReportEntry';
   styleUrls: ['./balance-report.component.css'],
 })
 export class BalanceReportComponent implements OnInit {
-  pageTitle: string = "Budget Report";
-  accountGroups: Dictionary<ITransaction[]>;
-  selectedAccounts: string[];
-  selectedCategories: string[];
+  readonly pageTitle: string = "Budget Report";
   report: IReportEntry[] = [];
   errorMessage: any;
-  groupByProperties: string[] = ["date", "category"];
-  groupByProperty: string = "date";
-  sortBy: string = 'key';
-  sortOrder: number = 1;
-  orderOptions: string[] = ['asc', 'desc'];
+  readonly groupByProperties: string[] = ["date", "category"];
+  groupByProperty: string = this.groupByProperties[0];
   showAverages: boolean = false;
 
-  constructor(private _transactionsService: TransactiosService) { }
+  sortBy: string = 'key';
+  sortOrder: number = 1;
+  readonly orderOptions: string[] = ['asc', 'desc'];
+
+  constructor(private _transactionsService: TransactiosService,
+              private _balanceReportService: BalanceReportService) { }
   
   ngOnInit() {
     this._transactionsService.getHttpTransactions().subscribe(
-      transactions => { this.accountGroups = _.groupBy(transactions, 'account'); },
+      transactions => { this._balanceReportService.accountGroups = _.groupBy(transactions, 'account'); },
       error => this.errorMessage = <any>error
     );
   }
   
   selectedAccountsChanged(selectedAccounts: string[]) {
-    this.selectedAccounts = selectedAccounts;
-    this.generateReport();
+    this._balanceReportService.selectedAccounts = selectedAccounts;
+    this.report = this._balanceReportService.generateReport(this.groupByProperty);
   }
  
   selectedCategoriesChanged(selectedCategories: string[]) {
-    this.selectedCategories = selectedCategories;
-    this.generateReport();
+    this._balanceReportService.selectedCategories = selectedCategories;
+    this.report = this._balanceReportService.generateReport(this.groupByProperty);
   }
 
-  private generateReport() {
-    let self = this;
-    self.report = [];
-    _.forEach(_.keys(this.accountGroups), function (key) {
-      if (self.selectedAccounts.includes(key)) {
-        let filteredTransactions = self.filterCategories(self.accountGroups[key], self.selectedCategories);
-        let monthlyGroups = _.groupBy(filteredTransactions,
-                                      function(t: ITransaction) { return self.extractKey(t, self.groupByProperty); });
-        _.forEach(monthlyGroups, function (monthReport: ITransaction[], monthKey: string) {
-          _.forEach(monthReport, function (t: ITransaction) {
-            self.addOrUpdate(self.report, monthKey, t.amount);
-          });
-        });
-      }
-    });
-    self.report = _.values(self.report);
-    self.reorderReport(this.sortBy);
-  }
-
-  private filterCategories(toFilter: ITransaction[], selectedCategories: string[]): ArrayLike<ITransaction> {
-    if (!selectedCategories)
-      return toFilter;
-
-    let filtered = toFilter.filter(function(t: ITransaction) {
-      return selectedCategories.includes(t.category);
-    });
-    return filtered;
-  }
-  
-  extractKey(t: ITransaction, groupBy: string): string {
-    if (groupBy == "date") 
-      return t.date.substring(3);
-    else
-      return t.category;
-  }
-  
-  addOrUpdate(report: IReportEntry[], key: string, value: number) {
-    if (!_.has(report, key)) {
-      report[key] = { 
-                      key: key,
-                      income: {total: 0, average: 0, occurences: 0},
-                      expense: {total: 0, average: 0, occurences: 0},
-                      balance: 0
-                    };
-    }
-    
-    if (value > 0) {
-      report[key].income.total += value;
-      report[key].income.occurences++;
-      report[key].income.average = report[key].income.total / report[key].income.occurences;
-    }
-    else if (value < 0){
-      report[key].expense.total += value;
-      report[key].expense.occurences++;
-      report[key].expense.average = report[key].expense.total / report[key].expense.occurences; 
-    }
-    
-    report[key].balance += value;
+  generateReport() {
+    this.report = this._balanceReportService.generateReport(this.groupByProperty);
   }
 
   reorderReport(sortBy: string): any {
     this.sortBy = sortBy;
     this.sortOrder = 1 - this.sortOrder;
-    this.report = _.orderBy(this.report, this.sortBy, this.orderOptions[this.sortOrder]);
+    this.report = this._balanceReportService.reorderReport(sortBy, this.orderOptions[this.sortOrder]);
   }
 
   displayAverages(): boolean {
