@@ -41,7 +41,7 @@ export class BalanceReportComponent implements OnInit {
     this.report = this._balanceReportService.generateReport(this.groupByProperty);
   }
 
-  generateReport() {
+  groupByPropertyChanged() {
     this.report = this._balanceReportService.generateReport(this.groupByProperty);
   }
 
@@ -53,5 +53,9 @@ export class BalanceReportComponent implements OnInit {
 
   displayAverages(): boolean {
     return this.groupByProperty == "category" && this.showAverages;
+  }
+
+  allowAverages(): boolean {
+    return this.groupByProperty == "category";
   }
 }

@@ -14,11 +14,11 @@
       <div>
         <label class="prop-radio" *ngFor="let property of groupByProperties">
           <input type="radio" [(ngModel)]="groupByProperty" name="groupBy"
-                 value="{{property}}" (change)="generateReport()"/> 
+                 value="{{property}}" (change)="groupByPropertyChanged()"/> 
           {{property}}
         </label>
       </div>
-      <label>
+      <label *ngIf="allowAverages()">
         <input type="checkbox" name="show-averages"
                value="Show Averages"
                [(ngModel)]="showAverages">
