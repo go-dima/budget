@@ -3,6 +3,7 @@
       {{pageTitle}}
   </div>
   <div class='panel-body'>
+      <pm-file-upload></pm-file-upload>
       <pm-property-filter
         [filterProperty]='"account"'
         (selectedProperties)=selectedAccountsChanged($event)>

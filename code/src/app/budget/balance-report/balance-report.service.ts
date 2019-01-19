@@ -3,7 +3,6 @@ import { IReportEntry } from "../IReportEntry";
 import { ITransaction } from "../ITransaction";
 import * as _ from "lodash";
 import { Dictionary } from "lodash";
-import { Observable } from "rxjs";
 
 @Injectable()
 export class BalanceReportService {
