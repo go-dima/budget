@@ -22,7 +22,7 @@ export class BalanceReportService {
                                           function(t: ITransaction) { return self.extractKey(t, groupByProperty); });
             _.forEach(monthlyGroups, function (monthReport: ITransaction[], monthKey: string) {
               _.forEach(monthReport, function (t: ITransaction) {
-                self.addOrUpdate(self.report, monthKey, t.amount);
+                self.addOrUpdate(self.report, monthKey, t.amount, self.extractDisplayKey(t, groupByProperty));
               });
             });
           }
@@ -44,16 +44,24 @@ export class BalanceReportService {
       }
       
       extractKey(t: ITransaction, groupBy: string): string {
-        if (groupBy == "date") 
-          return t.date.substring(3);
+        if (groupBy == "date")
+           return t.date.substring(5) + t.date.substring(3,5) + t.date.substring(0,3);//yyyy-mm-dd
         else
           return t.category;
       }
       
-      addOrUpdate(report: IReportEntry[], key: string, value: number) {
+      extractDisplayKey(t: ITransaction, groupBy: string): string {
+        if (groupBy == "date")
+           return t.date.substring(3);//mm/yyyy
+        else
+          return t.category;
+      }
+
+      addOrUpdate(report: IReportEntry[], key: string, value: number, displayKey: string) {
         if (!_.has(report, key)) {
           report[key] = { 
                           key: key,
+                          displayKey: displayKey,
                           income: {total: 0, average: 0, occurences: 0},
                           expense: {total: 0, average: 0, occurences: 0},
                           balance: 0
