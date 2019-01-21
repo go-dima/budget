@@ -68,5 +68,15 @@
         "amount": -1000,
         "balance": 0,
         "comments": ""
+    },
+    {
+        "account": "Alice",
+        "date": "20/08/2018",
+        "description": "",
+        "category": "ביטוח",
+        "reference": "68851",
+        "amount": -1600,
+        "balance": 0,
+        "comments": ""
     }
 ]

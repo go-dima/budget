@@ -45,14 +45,14 @@ export class BalanceReportService {
       
       extractKey(t: ITransaction, groupBy: string): string {
         if (groupBy == "date")
-           return t.date.substring(5) + t.date.substring(3,5) + t.date.substring(0,3);//yyyy-mm-dd
+           return t.date.substring(6) + t.date.substring(2,5);// yyyy-mm
         else
           return t.category;
       }
       
       extractDisplayKey(t: ITransaction, groupBy: string): string {
         if (groupBy == "date")
-           return t.date.substring(3);//mm/yyyy
+           return t.date.substring(3);// mm-yyyy
         else
           return t.category;
       }
