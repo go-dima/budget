@@ -27,7 +27,7 @@ export class PropertyFilterComponent implements OnInit {
                                });
             this.selectedPropertiesChanged(null);
         },
-        error => this.errorMessage = <any>error
+        error => this.errorMessage = error
     );
   }
 

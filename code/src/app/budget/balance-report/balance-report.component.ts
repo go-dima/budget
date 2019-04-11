@@ -10,7 +10,7 @@ import { BalanceReportService } from './balance-report.service';
   styleUrls: ['./balance-report.component.css'],
 })
 export class BalanceReportComponent implements OnInit {
-  readonly pageTitle: string = "Budget Report";
+  readonly pageTitle: string = "Balance Report";
   report: IReportEntry[] = [];
   errorMessage: any;
   readonly groupByProperties: string[] = ["date", "category"];
@@ -27,7 +27,7 @@ export class BalanceReportComponent implements OnInit {
   ngOnInit() {
     this._transactionsService.getHttpTransactions().subscribe(
       transactions => { this._balanceReportService.accountGroups = _.groupBy(transactions, 'account'); },
-      error => this.errorMessage = <any>error
+      error => this.errorMessage = error
     );
   }
   

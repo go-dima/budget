@@ -31,11 +31,11 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
     this._transactionsService.getHttpTransactions().subscribe(
       transactions => {
-            this.transactions = transactions,
+            this.transactions = transactions;
             this.filteredTransactions = this.transactions;
             this.accounts = uniqBy(this.transactions, 'account').map(this.transactionToAccount);
         },
-        error => this.errorMessage = <any>error
+        error => this.errorMessage = error
     );
   }
 
@@ -44,6 +44,9 @@ export class TransactionsComponent implements OnInit {
   }
 
   performFilter(filterBy: string) {
+      if (this.transactions == undefined)
+        return;
+      
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));
 
