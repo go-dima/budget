@@ -1,14 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountsService {
   _selectedAccounts: string[];
+  accountsChanged: EventEmitter<void> = new EventEmitter<void>();
+
+  get selectedAccounts(): string[] {
+      return this._selectedAccounts;
+  }
 
   set selectedAccounts(value: string[]){
     this._selectedAccounts = value;
-    console.log(this._selectedAccounts);
+    this.accountsChanged.emit();
   }
 
   constructor() { }

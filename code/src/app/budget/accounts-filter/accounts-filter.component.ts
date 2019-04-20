@@ -17,3 +17,4 @@ export class AccountsFilterComponent implements OnInit {
     this._accountsService.selectedAccounts = selectedAccounts;
   }
 }
+  

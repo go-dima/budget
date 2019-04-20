@@ -30,6 +30,10 @@ import { AccountsFilterComponent } from './accounts-filter/accounts-filter.compo
   providers: [
     TransactiosService,
     BalanceReportService
+  ],
+  exports: [
+    FileUploadComponent,
+    AccountsFilterComponent
   ]
 })
 export class BudgetModule { }

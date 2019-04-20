@@ -6,14 +6,14 @@ import { Dictionary } from "lodash";
 
 @Injectable()
 export class BalanceReportService {
-    report: IReportEntry[];
-    selectedAccounts: string[];
-    accountGroups: Dictionary<ITransaction[]>;
-    selectedCategories: string[];
-    generatedReport: EventEmitter<IReportEntry[]> = new EventEmitter<IReportEntry[]>();
-
-    generateReport(groupByProperty: string): IReportEntry[] {
-        let self = this;
+  report: IReportEntry[];
+  selectedAccounts: string[] = [];
+  accountGroups: Dictionary<ITransaction[]>;
+  selectedCategories: string[];
+  generatedReport: EventEmitter<IReportEntry[]> = new EventEmitter<IReportEntry[]>();
+  
+  generateReport(groupByProperty: string): IReportEntry[] {
+    let self = this;
         self.report = [];
         _.forEach(_.keys(this.accountGroups), function (key) {
           if (self.selectedAccounts.includes(key)) {
@@ -32,17 +32,17 @@ export class BalanceReportService {
         self.generatedReport.emit(self.report);
         return self.report;
       }
-
+      
       private filterCategories(toFilter: ITransaction[], selectedCategories: string[]): ArrayLike<ITransaction> {
         if (!selectedCategories)
           return toFilter;
-    
+        
         let filtered = toFilter.filter(function(t: ITransaction) {
           return selectedCategories.includes(t.category);
         });
         return filtered;
       }
-      
+
       extractKey(t: ITransaction, groupBy: string): string {
         if (groupBy == "date")
            return t.date.substring(6) + t.date.substring(2,5);// yyyy-mm
@@ -84,5 +84,11 @@ export class BalanceReportService {
 
       reorderReport(sortBy: string, sortOrder: string): IReportEntry[] {
         return _.orderBy(this.report, sortBy, sortOrder);
+      }
+
+      selectedAccountsChanged(selectedAccounts: string[], groupByProperty: string) {
+        this.selectedAccounts = selectedAccounts;
+        this.report = this.generateReport(groupByProperty);
+        return this.report;
       }
 }

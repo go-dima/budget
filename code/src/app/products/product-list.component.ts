@@ -39,7 +39,7 @@ export class ProductListComponent
                 this.products = products;
                 this.filteredProducts = this.products;
             },
-            error => this.errorMessage = <any>error
+            error => this.errorMessage = error
         );
     }
 

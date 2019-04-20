@@ -3,6 +3,7 @@ import { TransactiosService } from '../transactions.service';
 import * as _ from 'lodash';
 import { IReportEntry } from '../IReportEntry';
 import { BalanceReportService } from './balance-report.service';
+import { AccountsService } from '../accounts-filter/accounts.service';
 
 @Component({
   selector: 'pm-balance-report',
@@ -22,20 +23,24 @@ export class BalanceReportComponent implements OnInit {
   readonly orderOptions: string[] = ['asc', 'desc'];
 
   constructor(private _transactionsService: TransactiosService,
-              private _balanceReportService: BalanceReportService) { }
+              private _balanceReportService: BalanceReportService,
+              private _accountsService: AccountsService) { }
   
   ngOnInit() {
     this._transactionsService.getHttpTransactions().subscribe(
-      transactions => { this._balanceReportService.accountGroups = _.groupBy(transactions, 'account'); },
+      transactions => {
+        this._balanceReportService.accountGroups = _.groupBy(transactions, 'account');
+        this.RefreshReport();},
       error => this.errorMessage = error
     );
-  }
-  
-  selectedAccountsChanged(selectedAccounts: string[]) {
-    this._balanceReportService.selectedAccounts = selectedAccounts;
-    this.report = this._balanceReportService.generateReport(this.groupByProperty);
+
+    this._accountsService.accountsChanged.subscribe(() => this.RefreshReport());
   }
  
+  private RefreshReport() {
+    this.report = this._balanceReportService.selectedAccountsChanged(this._accountsService.selectedAccounts, this.groupByProperty);
+  }
+
   selectedCategoriesChanged(selectedCategories: string[]) {
     this._balanceReportService.selectedCategories = selectedCategories;
     this.report = this._balanceReportService.generateReport(this.groupByProperty);
