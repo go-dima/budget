@@ -3,6 +3,7 @@ import { ICheckbox } from "../ICheckbox";
 import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
 import { uniqBy, map, orderBy } from 'lodash';
+import { AccountsService } from "../accounts-filter/accounts.service";
 
 @Component({
   selector: 'pm-transactions',
@@ -26,7 +27,8 @@ export class TransactionsComponent implements OnInit {
       this.performFilter(this.listFilter);
   }
 
-  constructor(private _transactionsService: TransactiosService) { }
+  constructor(private _transactionsService: TransactiosService,
+              private _accountsService: AccountsService) { }
 
   ngOnInit() {
     this._transactionsService.getHttpTransactions().subscribe(
@@ -34,9 +36,11 @@ export class TransactionsComponent implements OnInit {
             this.transactions = transactions;
             this.filteredTransactions = this.transactions;
             this.accounts = uniqBy(this.transactions, 'account').map(this.transactionToAccount);
+            this.selectedAccountsChanged();
         },
         error => this.errorMessage = error
     );
+    this._accountsService.accountsChanged.subscribe(() => this.selectedAccountsChanged());
   }
 
   transactionToAccount(transaction: ITransaction): ICheckbox {
@@ -46,7 +50,6 @@ export class TransactionsComponent implements OnInit {
   performFilter(filterBy: string) {
       if (this.transactions == undefined)
         return;
-      
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));
 
@@ -63,8 +66,8 @@ export class TransactionsComponent implements OnInit {
             transaction.category.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
-  selectedAccountsChanged(selectedAccounts: string[]) {
-    this.displayedAccounts = selectedAccounts;
+  selectedAccountsChanged() {
+    this.displayedAccounts = this._accountsService.selectedAccounts;
     this.performFilter(this.listFilter);
   }
 }
