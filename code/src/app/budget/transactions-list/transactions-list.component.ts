@@ -53,7 +53,7 @@ export class TransactionsComponent implements OnInit {
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));
 
-      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, this.customDateKey);
+      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, this.customDateKey, 'desc');
   }
 
   customDateKey(transaction: ITransaction): string {
