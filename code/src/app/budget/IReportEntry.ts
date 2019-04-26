@@ -3,7 +3,7 @@ export interface IReportEntry {
     displayKey: string;
     income: Data;
     expense: Data;
-    balance: number;
+    overall: number;
 }
 
 export interface Data {

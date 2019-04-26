@@ -21,7 +21,7 @@ export class ChartComponent implements OnInit {
 
   onReportGenerated(report: IReportEntry[]) {
     let labels = map(report, entry => entry.key);
-    let balanceData = map(report, entry => entry.balance);
+    let overallData = map(report, entry => entry.overall);
     let incomeData = map(report, entry => entry.income.total);
     let expenseData = map(report, entry => entry.expense.total);
 
@@ -35,7 +35,7 @@ export class ChartComponent implements OnInit {
         labels: labels,
         datasets: [
           { 
-            label: 'Balance', data: balanceData, backgroundColor: 'rgba(0, 0, 255, 0.3)'
+            label: 'Overall', data: overallData, backgroundColor: 'rgba(0, 0, 255, 0.3)'
           },
           {
             label: 'Income', data: incomeData, backgroundColor: 'rgba(0, 255, 0, 0.3)'

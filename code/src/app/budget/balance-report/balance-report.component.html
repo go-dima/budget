@@ -29,7 +29,7 @@
                   <th class="sortable" (click)='reorderReport("key")'>Group By</th>
                   <th class="sortable" (click)='reorderReport("income.total")'>Income</th>
                   <th class="sortable" (click)='reorderReport("expense.total")'>Expense</th>
-                  <th class="sortable" (click)='reorderReport("balance")'>Balance</th>
+                  <th class="sortable" (click)='reorderReport("balance")'>Overall</th>
                   <th *ngIf='displayAverages()'>Income Average</th>
                   <th *ngIf='displayAverages()'>Income Months</th>
                   <th *ngIf='displayAverages()'>Expense Average</th>
@@ -41,7 +41,7 @@
                       <td>{{ entry.displayKey }}</td>
                       <td>{{ entry.income.total }}</td>
                       <td>{{ entry.expense.total }}</td>
-                      <td>{{ entry.balance }}</td>
+                      <td>{{ entry.overall }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.income.average | number: '1.0-2' }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.expense.average | number: '1.0-2' }}</td>

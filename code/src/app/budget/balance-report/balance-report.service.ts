@@ -64,7 +64,7 @@ export class BalanceReportService {
                           displayKey: displayKey,
                           income: {total: 0, average: 0, occurences: 0},
                           expense: {total: 0, average: 0, occurences: 0},
-                          balance: 0
+                          overall: 0
                         };
         }
         
@@ -79,7 +79,7 @@ export class BalanceReportService {
           report[key].expense.average = report[key].expense.total / report[key].expense.occurences; 
         }
         
-        report[key].balance += value;
+        report[key].overall += value;
       }
 
       reorderReport(sortBy: string, sortOrder: string): IReportEntry[] {
