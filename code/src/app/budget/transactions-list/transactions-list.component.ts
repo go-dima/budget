@@ -48,7 +48,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   performFilter(filterBy: string) {
-      if (this.transactions == undefined)
+      if (this.transactions == undefined || this.displayedAccounts == undefined)
         return;
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));

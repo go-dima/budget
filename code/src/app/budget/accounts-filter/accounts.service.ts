@@ -4,7 +4,7 @@ import { Injectable, EventEmitter } from '@angular/core';
   providedIn: 'root'
 })
 export class AccountsService {
-  _selectedAccounts: string[];
+  private _selectedAccounts: string[];
   accountsChanged: EventEmitter<void> = new EventEmitter<void>();
 
   get selectedAccounts(): string[] {

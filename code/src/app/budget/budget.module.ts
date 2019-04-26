@@ -9,6 +9,7 @@ import { BalanceReportService } from './balance-report/balance-report.service';
 import { ChartComponent } from './chart/chart.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { AccountsFilterComponent } from './accounts-filter/accounts-filter.component';
+import { TransactionsChartComponent } from './transactions-chart/transactions-chart.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { AccountsFilterComponent } from './accounts-filter/accounts-filter.compo
     ChartComponent,
     FileUploadComponent,
     AccountsFilterComponent,
+    TransactionsChartComponent,
   ],
   providers: [
     TransactiosService,
