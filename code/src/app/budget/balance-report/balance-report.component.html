@@ -39,9 +39,9 @@
               <tbody>
                   <tr *ngFor="let entry of report">
                       <td>{{ entry.displayKey }}</td>
-                      <td>{{ entry.income.total }}</td>
-                      <td>{{ entry.expense.total }}</td>
-                      <td>{{ entry.overall }}</td>
+                      <td>{{ entry.income.total  | currency: 'ILS':symbol:'1.2-2'}}</td>
+                      <td>{{ entry.expense.total  | currency: 'ILS':symbol:'1.2-2'}}</td>
+                      <td>{{ entry.overall  | currency: 'ILS':symbol:'1.2-2'}}</td>
                       <td *ngIf='displayAverages()'>{{ entry.income.average | number: '1.0-2' }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
                       <td *ngIf='displayAverages()'>{{ entry.expense.average | number: '1.0-2' }}</td>
