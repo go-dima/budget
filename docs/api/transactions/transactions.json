@@ -1,46 +1,46 @@
 [
     {
-        "account": "Alice",
+        "account": "Bob",
         "date": "08/06/2017",
         "description": "",
         "category": "הכנסה",
         "reference": "171717",
-        "amount": 2000,
-        "balance": 0,
+        "amount": 2100,
+        "balance": 500,
         "comments": ""
     },
     {
-        "account": "Bob",
+        "account": "Alice",
         "date": "21/07/2017",
         "description": "",
         "category": "הכנסה",
         "reference": "68854",
         "amount": 1000,
-        "balance": 0,
+        "balance": -3200,
         "comments": ""
     },
     {
-        "account": "Bob",
+        "account": "Alice",
         "date": "02/02/2017",
         "description": "",
         "category": "מאסטרקארד",
         "reference": "3554",
         "amount": -200,
-        "balance": 0,
+        "balance": -200,
         "comments": ""
     },
     {
-        "account": "Alice",
+        "account": "Bob",
         "date": "02/06/2017",
         "description": "",
         "category": "ויזה",
         "reference": "1527",
         "amount": -1500,
-        "balance": 0,
+        "balance": -1500,
         "comments": ""
     },
     {
-        "account": "Alice",
+        "account": "Bob",
         "date": "25/06/2017",
         "description": "",
         "category": "ביטוח",
@@ -50,33 +50,53 @@
         "comments": ""
     },
     {
-        "account": "Bob",
+        "account": "Alice",
         "date": "01/07/2017",
         "description": "",
         "category": "ויזה",
         "reference": "66584",
         "amount": -3000,
-        "balance": 0,
+        "balance": -4200,
         "comments": ""
     },
     {
-        "account": "Bob",
+        "account": "Alice",
         "date": "21/02/2017",
         "description": "",
         "category": "ויזה",
         "reference": "2214",
         "amount": -1000,
-        "balance": 0,
+        "balance": -1200,
         "comments": ""
     },
     {
-        "account": "Alice",
+        "account": "Bob",
         "date": "20/08/2018",
         "description": "",
         "category": "ביטוח",
         "reference": "68851",
         "amount": -1600,
-        "balance": 0,
+        "balance": -1600,
+        "comments": ""
+    },
+    {
+        "account": "Alice",
+        "date": "01/09/2018",
+        "description": "",
+        "category": "הכנסה",
+        "reference": "68854",
+        "amount": 4000,
+        "balance": 800,
+        "comments": ""
+    },
+    {
+        "account": "Bob",
+        "date": "01/09/2018",
+        "description": "",
+        "category": "הכנסה",
+        "reference": "68771",
+        "amount": 2000,
+        "balance": 400,
         "comments": ""
     }
 ]
