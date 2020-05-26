@@ -11,7 +11,7 @@ import DateUtils from '../date-utils';
   styleUrls: ['./transactions-chart.component.css']
 })
 export class TransactionsChartComponent implements OnInit {
-  @ViewChild('lineChart') private chartRef;
+  @ViewChild('lineChart', {static: true}) private chartRef;
   chart: any;
   colorOptions: string[] = [
     'rgba(0, 0, 255, 0.3)',

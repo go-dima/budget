@@ -10,7 +10,7 @@ import { map } from 'lodash';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
-  @ViewChild('lineChart') private chartRef;
+  @ViewChild('lineChart', {static: true}) private chartRef;
   chart: any;
 
   constructor(private _balanceReportService: BalanceReportService) { }
