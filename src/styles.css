@@ -6,3 +6,20 @@ li {
 div.panel-heading {
    font-size: x-large;
 }
+
+header {
+    text-align: center;
+    padding: 1px;
+    background-color: lightcyan;
+    color: black;
+}
+
+
+footer {
+    text-align: center;
+    background-color: lightcyan;
+    color: black;
+    width: 100%;
+    /* position: fixed;
+    bottom: 0; */
+}

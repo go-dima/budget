@@ -19,7 +19,7 @@ export class PropertyFilterComponent implements OnInit {
 
   ngOnInit() {
     let self = this;
-    this._transactionsService.getHttpTransactions().subscribe(
+    this._transactionsService.getAllTransactions().subscribe(
       transactions => {
             this.properties = _.uniqBy(transactions, this.filterProperty)
                                .map(function(transaction: ITransaction) {
