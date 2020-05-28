@@ -31,7 +31,7 @@ export class TransactionsComponent implements OnInit {
               private _accountsService: AccountsService) { }
 
   ngOnInit() {
-    this._transactionsService.getHttpTransactions().subscribe(
+    this._transactionsService.getAllTransactions().subscribe(
       transactions => {
             this.transactions = transactions;
             this.filteredTransactions = this.transactions;
