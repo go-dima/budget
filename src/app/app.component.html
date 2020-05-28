@@ -1,17 +1,17 @@
 <div>
-  <nav class='navbar navbar-default'>
-    <div class='container-fluid'>
+  <nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: azure;">
+    <a class="navbar-brand" href="#">Budget</a>
+    <div class="collapse navbar-collapse">
       <ul class='nav navbar-nav'>
-        <li><a [routerLink]="['/welcome']">Home</a></li>
-        <li><a [routerLink]="['/transactions']">Transactions List</a></li>
-        <li><a [routerLink]="['/balance-report']">Balance Report</a></li>
+        <li><a class="nav-item nav-link" [routerLink]="['/welcome']">Home</a></li>
+        <li><a class="nav-item nav-link" [routerLink]="['/transactions']">Transactions List</a></li>
+        <li><a class="nav-item nav-link" [routerLink]="['/balance-report']">Balance Report</a></li>
       </ul>
     </div>
   </nav>
   <div class='container'>
     <div class="header">
       <div class="upload-container">
-        <div>Upload transactions:</div>
         <pm-file-upload></pm-file-upload>
       </div>
       <div class="filter-container">

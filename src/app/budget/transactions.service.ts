@@ -20,7 +20,7 @@ export class TransactiosService {
                       },
                   );
     }
-    
+
     getAllTransactions(): Observable<ITransaction[]>{
         return this.transactionsSubject.asObservable();
     }
@@ -36,7 +36,6 @@ export class TransactiosService {
     }
 
     uploadFile(fileToUpload: File){
-        console.log('UploadFile')
         let reader = new FileReader();
         reader.onload = () => {
             var uploadedTransactions: ITransaction[] = JSON.parse(reader.result.toString());
