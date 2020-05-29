@@ -23,8 +23,8 @@
       <br/>
       <pm-chart></pm-chart>
       <div class='table-responsive'>
-          <table class='table' *ngIf='report && report.length'>
-              <thead>
+          <table class='table table-sm table-hover' *ngIf='report && report.length'>
+              <thead class="thead-light">
                 <tr>
                   <th class="sortable" (click)='reorderReport("key")'>Group By</th>
                   <th class="sortable" (click)='reorderReport("income.total")'>Income</th>
