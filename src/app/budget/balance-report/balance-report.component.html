@@ -7,19 +7,24 @@
           [filterProperty]='"category"'
           (selectedProperties)=selectedCategoriesChanged($event)>
       </pm-property-filter>
-      <div>
-        <label class="prop-radio" *ngFor="let property of groupByProperties">
-          <input type="radio" [(ngModel)]="groupByProperty" name="groupBy"
-                 value="{{property}}" (change)="groupByPropertyChanged()"/> 
+      <div class="custom-control custom-radio custom-control-inline" *ngFor="let property of groupByProperties">
+        <input type="radio" class="custom-control-input"
+               [(ngModel)]="groupByProperty"
+               name="groupBy" id="{{property}}-id"
+               value="{{property}}" (change)="groupByPropertyChanged()"/> 
+        <label class="prop-radio custom-control-label" for="{{property}}-id">
           {{property}}
         </label>
       </div>
-      <label *ngIf="allowAverages()">
+      <div class="custom-control custom-checkbox custom-control-inline">
         <input type="checkbox" name="show-averages"
-               value="Show Averages"
-               [(ngModel)]="showAverages">
-        Show Averages
-      </label>
+              class="custom-control-input" id="show-averages-id"
+              value="Show Averages"
+              [(ngModel)]="showAverages">
+        <label *ngIf="allowAverages()" class="custom-control-label" for="show-averages-id">
+          Show Averages
+        </label>
+      </div>
       <br/>
       <pm-chart></pm-chart>
       <div class='table-responsive'>

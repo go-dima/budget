@@ -16,7 +16,7 @@ export class BalanceReportComponent implements OnInit {
   errorMessage: any;
   readonly groupByProperties: string[] = ["date", "category"];
   groupByProperty: string = this.groupByProperties[0];
-  showAverages: boolean = false;
+  showAverages: boolean = true;
 
   sortBy: string = 'key';
   sortOrder: number = 1;
