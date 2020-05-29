@@ -1,34 +1,35 @@
 <div clas="spanel panel-primary">
   <div class="panel-heading">
-      {{pageTitle}}
+    {{pageTitle}}
   </div>
   <div class='panel-body'>
-      <pm-property-filter
-          [filterProperty]='"category"'
-          (selectedProperties)=selectedCategoriesChanged($event)>
-      </pm-property-filter>
-      <div class="custom-control custom-radio custom-control-inline" *ngFor="let property of groupByProperties">
-        <input type="radio" class="custom-control-input"
-               [(ngModel)]="groupByProperty"
-               name="groupBy" id="{{property}}-id"
-               value="{{property}}" (change)="groupByPropertyChanged()"/> 
-        <label class="prop-radio custom-control-label" for="{{property}}-id">
-          {{property}}
-        </label>
-      </div>
-      <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" name="show-averages"
-              class="custom-control-input" id="show-averages-id"
-              value="Show Averages"
-              [(ngModel)]="showAverages">
-        <label *ngIf="allowAverages()" class="custom-control-label" for="show-averages-id">
-          Show Averages
-        </label>
-      </div>
-      <br/>
-      <pm-chart></pm-chart>
-      <div class='table-responsive'>
-          <table class='table table-sm table-hover' *ngIf='report && report.length'>
+    <div class="container">
+      <div class="row">
+        <div class="col-2">
+          <pm-property-filter
+            [filterProperty]='"category"'
+            (selectedProperties)=selectedCategoriesChanged($event)>
+          </pm-property-filter>
+        </div>
+        <div class="col">
+          <div class="custom-control custom-radio custom-control-inline" *ngFor="let property of groupByProperties">
+            <input type="radio" class="custom-control-input" [(ngModel)]="groupByProperty" name="groupBy"
+              id="{{property}}-id" value="{{property}}" (change)="groupByPropertyChanged()" />
+            <label class="prop-radio custom-control-label" for="{{property}}-id">
+              {{property}}
+            </label>
+          </div>
+          <div class="custom-control custom-checkbox custom-control-inline">
+            <input type="checkbox" name="show-averages" class="custom-control-input" id="show-averages-id"
+              value="Show Averages" [(ngModel)]="showAverages">
+            <label *ngIf="allowAverages()" class="custom-control-label" for="show-averages-id">
+              Show Averages
+            </label>
+          </div>
+          <br />
+          <pm-chart></pm-chart>
+          <div class='table-responsive'>
+            <table class='table table-sm table-hover' *ngIf='report && report.length'>
               <thead class="thead-light">
                 <tr>
                   <th class="sortable" (click)='reorderReport("key")'>Group By</th>
@@ -42,18 +43,20 @@
                 </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let entry of report">
-                      <td>{{ entry.displayKey }}</td>
-                      <td>{{ entry.income.total  | currency: 'ILS':symbol:'1.2-2'}}</td>
-                      <td>{{ entry.expense.total  | currency: 'ILS':symbol:'1.2-2'}}</td>
-                      <td>{{ entry.overall  | currency: 'ILS':symbol:'1.2-2'}}</td>
-                      <td *ngIf='displayAverages()'>{{ entry.income.average | number: '1.0-2' }}</td>
-                      <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
-                      <td *ngIf='displayAverages()'>{{ entry.expense.average | number: '1.0-2' }}</td>
-                      <td *ngIf='displayAverages()'>{{ entry.expense.occurences }}</td>
-                  </tr>
+                <tr *ngFor="let entry of report">
+                  <td>{{ entry.displayKey }}</td>
+                  <td>{{ entry.income.total  | currency: 'ILS':symbol:'1.2-2'}}</td>
+                  <td>{{ entry.expense.total  | currency: 'ILS':symbol:'1.2-2'}}</td>
+                  <td>{{ entry.overall  | currency: 'ILS':symbol:'1.2-2'}}</td>
+                  <td *ngIf='displayAverages()'>{{ entry.income.average | number: '1.0-2' }}</td>
+                  <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
+                  <td *ngIf='displayAverages()'>{{ entry.expense.average | number: '1.0-2' }}</td>
+                  <td *ngIf='displayAverages()'>{{ entry.expense.occurences }}</td>
+                </tr>
               </tbody>
-          </table>
+            </table>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
-</div>
