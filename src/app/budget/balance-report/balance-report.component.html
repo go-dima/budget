@@ -50,12 +50,12 @@
                   <td [ngClass]="getDisplayClass(entry.expense.total)">
                     {{ entry.expense.total | currency: 'ILS':symbol:'1.2-2'}}</td>
                   <td [ngClass]="getDisplayClass(entry.overall)">
-                    {{ entry.overall  | currency: 'ILS':symbol:'1.2-2'}}</td>
+                    {{ entry.overall | currency: 'ILS':symbol:'1.2-2'}}</td>
                   <td *ngIf='displayAverages()' [ngClass]="getDisplayClass(entry.income.average)">
-                    {{ entry.income.average | number: '1.0-2' }}</td>
+                    {{ entry.income.average | currency: 'ILS':symbol:'1.2-2' }}</td>
                   <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
                   <td *ngIf='displayAverages()' [ngClass]="getDisplayClass(entry.expense.average)">
-                    {{ entry.expense.average | number: '1.0-2' }}</td>
+                    {{ entry.expense.average | currency: 'ILS':symbol:'1.2-2' }}</td>
                   <td *ngIf='displayAverages()'>{{ entry.expense.occurences }}</td>
                 </tr>
               </tbody>
