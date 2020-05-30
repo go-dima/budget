@@ -24,7 +24,8 @@ export class PropertyFilterComponent implements OnInit {
             this.properties = _.uniqBy(transactions, this.filterProperty)
                                .map(function(transaction: ITransaction) {
                                   return { name: _.get(transaction, self.filterProperty), isChecked: true };
-                               });
+                               })
+                               .reverse();
             this.selectedPropertiesChanged(null);
         },
         error => this.errorMessage = error

@@ -58,7 +58,7 @@ export class BalanceReportComponent implements OnInit {
   }
 
   displayAverages(): boolean {
-    return this.groupByProperty == "category" && this.showAverages;
+    return this.allowAverages() && this.showAverages;
   }
 
   allowAverages(): boolean {

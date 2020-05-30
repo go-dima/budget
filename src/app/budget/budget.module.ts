@@ -11,12 +11,14 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { AccountsFilterComponent } from './accounts-filter/accounts-filter.component';
 import { TransactionsChartComponent } from './transactions-chart/transactions-chart.component';
 import { ConvertToDisplayClassPipe } from '../shared/convert-to-display-class.pipe';
+import { AccountsSummaryComponent } from './accounts-summary/accounts-summary.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       { path: 'transactions', component: TransactionsComponent },
       { path: 'balance-report', component: BalanceReportComponent },
+      { path: 'accounts-summary', component: AccountsSummaryComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
     ]),
     SharedModule,
@@ -29,7 +31,8 @@ import { ConvertToDisplayClassPipe } from '../shared/convert-to-display-class.pi
     FileUploadComponent,
     AccountsFilterComponent,
     TransactionsChartComponent,
-    ConvertToDisplayClassPipe
+    ConvertToDisplayClassPipe,
+    AccountsSummaryComponent,
   ],
   providers: [
     TransactiosService,

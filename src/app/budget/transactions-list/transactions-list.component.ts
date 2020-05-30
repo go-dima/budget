@@ -2,8 +2,9 @@ import { ITransaction } from "../ITransaction";
 import { ICheckbox } from "../ICheckbox";
 import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
-import { uniqBy, map, orderBy } from 'lodash';
+import { uniqBy, orderBy } from 'lodash';
 import { AccountsService } from "../accounts-filter/accounts.service";
+import DateUtils from "../date-utils";
 import Common from "../common";
 
 @Component({
@@ -36,7 +37,7 @@ export class TransactionsComponent implements OnInit {
       transactions => {
             this.transactions = transactions;
             this.filteredTransactions = this.transactions;
-            this.accounts = uniqBy(this.transactions, 'account').map(this.transactionToAccount);
+            this.accounts = uniqBy(this.transactions, 'account').map(Common.transactionToAccount);
             this.selectedAccountsChanged();
         },
         error => this.errorMessage = error
@@ -44,21 +45,12 @@ export class TransactionsComponent implements OnInit {
     this._accountsService.accountsChanged.subscribe(() => this.selectedAccountsChanged());
   }
 
-  transactionToAccount(transaction: ITransaction): ICheckbox {
-      return { name: transaction.account, isChecked: true };
-  }
-
   performFilter(filterBy: string) {
       if (this.transactions == undefined || this.displayedAccounts == undefined)
         return;
       let byAccount = this.transactions.filter((transaction: ITransaction) =>
                         this.displayedAccounts.includes(transaction.account));
-
-      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, this.customDateKey, 'desc');
-  }
-
-  customDateKey(transaction: ITransaction): string {
-    return transaction.date.substring(6) + transaction.date.substring(3,5) + transaction.date.substring(0,2);
+      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, Common.transactionDateKey, 'desc');
   }
     
   applyCaregoryFilter(toFilter: ITransaction[], filterBy: string): ITransaction[] {
