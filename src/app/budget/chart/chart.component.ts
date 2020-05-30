@@ -16,7 +16,7 @@ export class ChartComponent implements OnInit {
   constructor(private _balanceReportService: BalanceReportService) { }
 
   ngOnInit() {
-    this._balanceReportService.generatedReport.subscribe(($event: IReportEntry[]) => this.onReportGenerated($event));
+    this._balanceReportService.generatedReportSubject.subscribe(($event: IReportEntry[]) => this.onReportGenerated($event));
   }
 
   onReportGenerated(report: IReportEntry[]) {
