@@ -4,6 +4,7 @@ import { TransactiosService } from "../transactions.service";
 import { Component, OnInit } from "@angular/core";
 import { uniqBy, map, orderBy } from 'lodash';
 import { AccountsService } from "../accounts-filter/accounts.service";
+import Common from "../common";
 
 @Component({
   selector: 'pm-transactions',
@@ -69,5 +70,9 @@ export class TransactionsComponent implements OnInit {
   selectedAccountsChanged() {
     this.displayedAccounts = this._accountsService.selectedAccounts;
     this.performFilter(this.listFilter);
+  }
+
+  getDisplayClass(data): string {
+    return Common.convertToDisplayClass(data);
   }
 }
