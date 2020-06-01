@@ -10,6 +10,7 @@ import { ChartComponent } from './chart/chart.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { AccountsFilterComponent } from './accounts-filter/accounts-filter.component';
 import { TransactionsChartComponent } from './transactions-chart/transactions-chart.component';
+import { ConvertToDisplayClassPipe } from '../shared/convert-to-display-class.pipe';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { TransactionsChartComponent } from './transactions-chart/transactions-ch
     FileUploadComponent,
     AccountsFilterComponent,
     TransactionsChartComponent,
+    ConvertToDisplayClassPipe
   ],
   providers: [
     TransactiosService,

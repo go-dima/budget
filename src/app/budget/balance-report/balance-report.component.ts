@@ -64,8 +64,4 @@ export class BalanceReportComponent implements OnInit {
   allowAverages(): boolean {
     return this.groupByProperty == "category";
   }
-
-  getDisplayClass(data): string {
-    return Common.convertToDisplayClass(data);
-  }
 }

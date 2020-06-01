@@ -71,8 +71,4 @@ export class TransactionsComponent implements OnInit {
     this.displayedAccounts = this._accountsService.selectedAccounts;
     this.performFilter(this.listFilter);
   }
-
-  getDisplayClass(data): string {
-    return Common.convertToDisplayClass(data);
-  }
 }
