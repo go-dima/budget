@@ -39,9 +39,9 @@
                       <td>{{ transaction.category}}</td>
                       <td>{{ transaction.reference }}</td>
                       <td [ngClass]="transaction.amount | toDisplayClass">
-                          {{ transaction.amount | currency: 'ILS':symbol:'1.2-2' }}</td>
+                          {{ transaction.amount | nis_currency }}</td>
                       <td [ngClass]="transaction.balance | toDisplayClass">
-                          {{ transaction.balance | currency: 'ILS':symbol:'1.2-2' }}</td>
+                          {{ transaction.balance | nis_currency }}</td>
                   </tr>
               </tbody>
           </table>

@@ -12,6 +12,7 @@ import { AccountsFilterComponent } from './accounts-filter/accounts-filter.compo
 import { TransactionsChartComponent } from './transactions-chart/transactions-chart.component';
 import { ConvertToDisplayClassPipe } from '../shared/convert-to-display-class.pipe';
 import { AccountsSummaryComponent } from './accounts-summary/accounts-summary.component';
+import { AppCurrencyPipe } from '../shared/app-currency.pipe';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { AccountsSummaryComponent } from './accounts-summary/accounts-summary.co
     TransactionsChartComponent,
     ConvertToDisplayClassPipe,
     AccountsSummaryComponent,
+    AppCurrencyPipe
   ],
   providers: [
     TransactiosService,

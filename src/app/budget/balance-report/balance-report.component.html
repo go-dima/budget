@@ -46,16 +46,16 @@
                 <tr *ngFor="let entry of report">
                   <td>{{ entry.displayKey }}</td>
                   <td [ngClass]="entry.income.total | toDisplayClass">
-                    {{ entry.income.total | currency: 'ILS':symbol:'1.2-2'}}</td>
+                    {{ entry.income.total | nis_currency}}</td>
                   <td [ngClass]="entry.expense.total | toDisplayClass">
-                    {{ entry.expense.total | currency: 'ILS':symbol:'1.2-2'}}</td>
+                    {{ entry.expense.total | nis_currency}}</td>
                   <td [ngClass]="entry.overall | toDisplayClass">
-                    {{ entry.overall | currency: 'ILS':symbol:'1.2-2'}}</td>
+                    {{ entry.overall | nis_currency}}</td>
                   <td *ngIf='displayAverages()' [ngClass]="entry.income.average | toDisplayClass">
-                    {{ entry.income.average | currency: 'ILS':symbol:'1.2-2' }}</td>
+                    {{ entry.income.average | nis_currency }}</td>
                   <td *ngIf='displayAverages()'>{{ entry.income.occurences }}</td>
                   <td *ngIf='displayAverages()' [ngClass]="entry.expense.average | toDisplayClass">
-                    {{ entry.expense.average | currency: 'ILS':symbol:'1.2-2' }}</td>
+                    {{ entry.expense.average | nis_currency }}</td>
                   <td *ngIf='displayAverages()'>{{ entry.expense.occurences }}</td>
                 </tr>
               </tbody>
