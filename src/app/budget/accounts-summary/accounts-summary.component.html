@@ -1,12 +1,12 @@
-<div class="card" *ngFor="let item of data">
-    <h5 class="card-header">{{ item.account }}</h5>
+<div class="card" *ngFor="let item of accounts">
+    <h5 class="card-header">{{ item.name }}</h5>
     <div class="card-body">
         <div class="container">
             <div class="row">
                 <div class="col-sm">
                     <h5 class="card-text" style="display: inline">Balance:</h5>
                     <h5 class="card-text font-weight-bold" style="display: inline">
-                        {{ item.balance | currency: 'ILS':symbol:'1.2-2' }}
+                        {{ item.balance | nis_currency }}
                     </h5>
                 </div>
             </div>
@@ -17,15 +17,15 @@
                 </div>
                 <div class="col-sm-3">
                     <p class="card-text">Average Income</p>
-                    <p class="card-text text-success">TBD</p>
+                    <p class="card-text text-success">{{ item.income_average | nis_currency }}</p>
                 </div>
                 <div class="col-sm">
                     <p class="card-text">Average Expense</p>
-                    <p class="card-text text-danger">TBD</p>
+                    <p class="card-text text-danger">{{ item.expense_average | nis_currency }}</p>
                 </div>
                 <div class="col-sm">
                     <p class="card-text">Net</p>
-                    <p [ngClass]="TBD | toDisplayClass">TBD</p>
+                    <p [ngClass]="item.net_average | toDisplayClass">{{ item.net_average | nis_currency }}</p>
                 </div>
             </div>
         </div>

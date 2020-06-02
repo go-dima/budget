@@ -3,8 +3,8 @@ import { ICheckbox } from "./ICheckbox";
 import DateUtils from "./date-utils";
 
 export default class Common {
-    static transactionToAccount(transaction: ITransaction): ICheckbox {
-      return { name: transaction.account, isChecked: true };
+  static transactionToAccount(transaction: ITransaction): ICheckbox {
+    return { name: transaction.account, isChecked: true };
   }
   
   /**
@@ -13,5 +13,9 @@ export default class Common {
    */  
   static transactionDateKey(transaction: ITransaction): string { /* transaction.date -> yyyymmdd */
     return DateUtils.extractSortKey(transaction.date);
+  }
+  
+  static accumulate(collection: number[]): number {
+    return collection.reduce((a,b) => a + b)
   }
 }

@@ -1,5 +1,3 @@
-import { ITransaction } from "./ITransaction";
-
 export default class DateUtils {
   /**
    * Returns date string converted to yyyy-mm-dd format
@@ -10,6 +8,10 @@ export default class DateUtils {
   }
 
   static max(first: string, second: string): string {
-    return first > second ? DateUtils.extractSortKey(first) : DateUtils.extractSortKey(second);
+    return DateUtils.extractSortKey(first) > DateUtils.extractSortKey(second) ? first : second;
+  }
+
+  static isBigger(first: string, second: string) {
+    return first == DateUtils.max(first, second);
   }
 }
