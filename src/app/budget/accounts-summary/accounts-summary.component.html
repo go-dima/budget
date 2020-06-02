@@ -1,35 +1,47 @@
-<div class="card" *ngFor="let item of accounts">
-    <h5 class="card-header">{{ item.name }}</h5>
-    <div class="card-body">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <h5 class="card-text" style="display: inline">Balance:</h5>
-                    <h5 class="card-text font-weight-bold" style="display: inline">
-                        {{ item.balance | nis_currency }}
-                    </h5>
-                </div>
-            </div>
-            <div class="row"><p></p></div>
-            <div class="row">
-                <div class="col-sm-2">
-                    <p class="card-text">Last Year:</p>
-                </div>
-                <div class="col-sm-3">
-                    <p class="card-text">Average Income</p>
-                    <p class="card-text text-success">{{ item.income_average | nis_currency }}</p>
-                </div>
-                <div class="col-sm">
-                    <p class="card-text">Average Expense</p>
-                    <p class="card-text text-danger">{{ item.expense_average | nis_currency }}</p>
-                </div>
-                <div class="col-sm">
-                    <p class="card-text">Net</p>
-                    <p [ngClass]="item.net_average | toDisplayClass">{{ item.net_average | nis_currency }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <pm-property-filter
+            [filterProperty]='"category"'
+            (selectedProperties)=selectedCategoriesChanged($event)>
+            </pm-property-filter>
+        </div>
+        <div class="col">
+            <div class="card" *ngFor="let item of accounts">
+                <h5 class="card-header">{{ item.name }}</h5>
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h5 class="card-text" style="display: inline">Balance:</h5>
+                                <h5 class="card-text font-weight-bold" style="display: inline">
+                                    {{ item.balance | nis_currency }}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row"><p></p></div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <p class="card-text">Last Year:</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="card-text">Average Income</p>
+                                <p class="card-text text-success">{{ item.income_average | nis_currency }}</p>
+                            </div>
+                            <div class="col-sm">
+                                <p class="card-text">Average Expense</p>
+                                <p class="card-text text-danger">{{ item.expense_average | nis_currency }}</p>
+                            </div>
+                            <div class="col-sm">
+                                <p class="card-text">Net</p>
+                                <p [ngClass]="item.net_average | toDisplayClass">{{ item.net_average | nis_currency }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"><p></p></div>
+                    <p class="card-text font-italic">Latest: {{ item.date }}</p>
                 </div>
             </div>
         </div>
-        <div class="row"><p></p></div>
-        <p class="card-text font-italic">Latest: {{ item.date }}</p>
     </div>
 </div>
