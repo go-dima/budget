@@ -14,8 +14,4 @@ export default class Common {
   static transactionDateKey(transaction: ITransaction): string { /* transaction.date -> yyyymmdd */
     return DateUtils.extractSortKey(transaction.date);
   }
-  
-  static accumulate(collection: number[]): number {
-    return collection.reduce((a,b) => a + b)
-  }
 }
