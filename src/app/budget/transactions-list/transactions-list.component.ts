@@ -19,6 +19,7 @@ export class TransactionsComponent implements OnInit {
   accounts: ICheckbox[];
   displayedAccounts: string[];
   errorMessage: string;
+  selectedCategories: string[];
 
   _listFilter: string;
   get listFilter(): string {
@@ -48,11 +49,14 @@ export class TransactionsComponent implements OnInit {
   performFilter(filterBy: string) {
       if (this.transactions == undefined || this.displayedAccounts == undefined)
         return;
-      let byAccount = this.transactions.filter((transaction: ITransaction) =>
-                        this.displayedAccounts.includes(transaction.account));
-      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byAccount, filterBy) : byAccount, Common.transactionDateKey, 'desc');
+      const byAccount = this.transactions
+                            .filter((transaction: ITransaction) => this.displayedAccounts.includes(transaction.account));
+      const byCategory = this.selectedCategories
+                             ? byAccount.filter((transaction: ITransaction) => this.selectedCategories.includes(transaction.category))
+                             : byAccount
+      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byCategory, filterBy) : byCategory, Common.transactionDateKey, 'desc');
   }
-    
+
   applyCaregoryFilter(toFilter: ITransaction[], filterBy: string): ITransaction[] {
     filterBy = filterBy.toLocaleLowerCase();
     return toFilter.filter((transaction: ITransaction) =>
@@ -62,5 +66,10 @@ export class TransactionsComponent implements OnInit {
   selectedAccountsChanged() {
     this.displayedAccounts = this._accountsService.selectedAccounts;
     this.performFilter(this.listFilter);
+  }
+
+  selectedCategoriesChanged(selectedCategories: string[]) {
+    this.selectedCategories = selectedCategories
+    this.performFilter(this.listFilter)
   }
 }

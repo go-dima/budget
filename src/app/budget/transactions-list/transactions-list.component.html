@@ -15,36 +15,45 @@
               <h3>Filtered by: {{listFilter}}</h3>
           </div>
       </div>
-      <pm-transactions-chart
-        [transactions]='filteredTransactions'>
-      </pm-transactions-chart>
-      <div class='table-responsive'>
-          <table class='table table-sm table-hover' *ngIf='transactions && transactions.length'>
-              <thead class="thead-light">
-                <tr>
-                  <th>Account</th>
-                  <th>Date</th>
-                  <th>Description</th>
-                  <th>Category</th>
-                  <th>Reference</th>
-                  <th>Amount</th>
-                  <th>Balance</th>
-                </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor='let transaction of filteredTransactions'>
-                      <td>{{ transaction.account }} </td>
-                      <td>{{ transaction.date }}</td>
-                      <td>{{ transaction.description }}</td>
-                      <td>{{ transaction.category}}</td>
-                      <td>{{ transaction.reference }}</td>
-                      <td [ngClass]="transaction.amount | toDisplayClass">
-                          {{ transaction.amount | nis_currency }}</td>
-                      <td [ngClass]="transaction.balance | toDisplayClass">
-                          {{ transaction.balance | nis_currency }}</td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
+      <div class="row">
+        <div class="col-2">
+          <pm-property-filter
+            [filterProperty]='"category"'
+            (selectedProperties)=selectedCategoriesChanged($event)>
+          </pm-property-filter>
+        </div>
+        <div class="col">
+            <pm-transactions-chart
+                [transactions]='filteredTransactions'>
+            </pm-transactions-chart>
+            <div class='table-responsive'>
+                <table class='table table-sm table-hover' *ngIf='transactions && transactions.length'>
+                    <thead class="thead-light">
+                        <tr>
+                        <th>Account</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Reference</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let transaction of filteredTransactions'>
+                            <td>{{ transaction.account }} </td>
+                            <td>{{ transaction.date }}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>{{ transaction.category}}</td>
+                            <td>{{ transaction.reference }}</td>
+                            <td [ngClass]="transaction.amount | toDisplayClass">
+                                {{ transaction.amount | nis_currency }}</td>
+                            <td [ngClass]="transaction.balance | toDisplayClass">
+                                {{ transaction.balance | nis_currency }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
   </div>
 </div>

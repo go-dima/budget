@@ -14,4 +14,13 @@ export default class Common {
   static transactionDateKey(transaction: ITransaction): string { /* transaction.date -> yyyymmdd */
     return DateUtils.extractSortKey(transaction.date);
   }
+
+  /**
+   * Return ICheckbox from a given string
+   * @param property The string to convert
+   * @param isChecked mark/unmark checkbox
+   */
+  static stringToCheckbox(property: string, isChecked: boolean = true): ICheckbox {
+    return { name: property, isChecked: isChecked };
+  }  
 }

@@ -4,6 +4,7 @@ import { TransactiosService } from '../transactions.service';
 import { ITransaction } from '../ITransaction';
 import * as _ from 'lodash';
 import { ReplaySubject } from 'rxjs';
+import Common from '../common';
 
 @Component({
   selector: 'pm-property-filter',
@@ -25,9 +26,7 @@ export class PropertyFilterComponent implements OnInit {
       this._transactionsService.getAllTransactions().subscribe(
         transactions => {
           this.properties = _.uniqBy(transactions, this.filterProperty)
-                            .map(function(transaction: ITransaction) {
-                              return { name: _.get(transaction, self.filterProperty), isChecked: true };
-                            })
+                            .map(transaction => transactionToCheckbox(transaction, self.filterProperty))
                             .reverse();
           this.selectedPropertiesChanged(null);
         },
@@ -43,14 +42,14 @@ export class PropertyFilterComponent implements OnInit {
       )
     } 
   }
-
-  transactionToProperty(transaction: ITransaction): ICheckbox {
-    return { name: _.get(transaction, this.filterProperty), isChecked: true };
-  }
   
   selectedPropertiesChanged(event: any) {
     let checkedProperties = this.properties.filter((prop: ICheckbox) => prop.isChecked)
                                            .map(prop => prop.name);
     this.selectedProperties.emit(checkedProperties);
   }
+}
+
+function transactionToCheckbox(transaction: ITransaction, filterProperty: string): ICheckbox {
+    return Common.stringToCheckbox(_.get(transaction, filterProperty))
 }
