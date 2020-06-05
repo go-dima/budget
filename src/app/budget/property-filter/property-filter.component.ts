@@ -13,7 +13,7 @@ import Common from '../common';
 })
 export class PropertyFilterComponent implements OnInit {
   @Input() filterProperty: string;
-  @Input() customProperties: ReplaySubject<string[]>;
+  @Input() customProperties: ReplaySubject<ICheckbox[]>;
   @Output() selectedProperties: EventEmitter<string[]> = new EventEmitter<string[]>();
   properties: ICheckbox[];
   errorMessage: string;
@@ -36,7 +36,7 @@ export class PropertyFilterComponent implements OnInit {
     if (this.customProperties) {
       this.customProperties.subscribe(
         categories => {
-          this.properties = categories.map(function(prop) { return {name: prop, isChecked: true} })
+          this.properties = categories
           this.selectedPropertiesChanged(null)
         }
       )

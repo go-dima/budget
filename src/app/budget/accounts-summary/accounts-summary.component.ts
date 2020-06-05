@@ -6,6 +6,7 @@ import DateUtils from '../date-utils';
 import { ITransaction } from '../ITransaction';
 import { IAccountSummary } from '../IAccountSummary';
 import { ReplaySubject } from 'rxjs';
+import { ICheckbox } from '../ICheckbox';
 
 @Component({
   selector: 'pm-accounts-summary',
@@ -18,9 +19,18 @@ export class AccountsSummaryComponent implements OnInit {
   byAccount: { [key: string] : ITransaction[]} = {};
   orderedTransactions: ITransaction[];
   selectedCategories: string[];
-  relevantProperties: ReplaySubject<string[]> = new ReplaySubject<string[]>();
+  relevantProperties: ReplaySubject<ICheckbox[]> = new ReplaySubject<ICheckbox[]>();
   yearlyTransactions: ITransaction[];
   dataLoaded: boolean = false;
+  uncheckedCategories: string[] = [
+    "\"חו\"\"ל\"",
+    "חיסכון",
+    "קופת גמל",
+    "שונות",
+    "חתונה",
+    "השקעה",
+    "ריבית זכות",
+  ]
 
   constructor(private _transactionsService: TransactiosService) { }
 
@@ -35,7 +45,9 @@ export class AccountsSummaryComponent implements OnInit {
 
         let relevantPropertiesSet: Set<string> = new Set();
         this.yearlyTransactions.forEach(transaction => { relevantPropertiesSet.add(transaction.category) })
-        this.relevantProperties.next(Array.from(relevantPropertiesSet.values()))
+
+        this.relevantProperties.next(Array.from(relevantPropertiesSet.values())
+                                          .map(c => Common.stringToCheckbox(c, !this.uncheckedCategories.includes(c))))
 
         this.accounts.push(...uniqBy(this.orderedTransactions, 'account').map(accountSummary))
         this.dataLoaded = true
