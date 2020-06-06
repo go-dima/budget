@@ -7,7 +7,6 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable()
 export class TransactiosService {
     private _transactionsUrl = './api/transactions/transactions.json';
-    private transactions : ITransaction[];
     private transactionsSubject = new ReplaySubject<ITransaction[]>(1);
 
     constructor(private _http: HttpClient) {
@@ -15,8 +14,7 @@ export class TransactiosService {
                   .pipe(catchError(this.handleError))
                   .subscribe(
                     transactions => {
-                          this.transactions = transactions;
-                          this.transactionsSubject.next(this.transactions);
+                          this.transactionsSubject.next(transactions);
                       },
                   );
     }
@@ -39,8 +37,7 @@ export class TransactiosService {
         let reader = new FileReader();
         reader.onload = () => {
             var uploadedTransactions: ITransaction[] = JSON.parse(reader.result.toString());
-            this.transactions = uploadedTransactions;
-            this.transactionsSubject.next(this.transactions)
+            this.transactionsSubject.next(uploadedTransactions)
         }
         reader.readAsText(fileToUpload);
     }
