@@ -7,19 +7,18 @@
             </pm-property-filter>
         </div>
         <div class="col">
-            <div class="card" *ngFor="let item of accounts">
+            <div class="card mb-1" *ngFor="let item of accounts">
                 <h5 class="card-header">{{ item.name }}</h5>
                 <div class="card-body">
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm mb-1">
                                 <h5 class="card-text" style="display: inline">Balance:</h5>
                                 <h5 class="card-text font-weight-bold" style="display: inline">
                                     {{ item.balance | nis_currency }}
                                 </h5>
                             </div>
                         </div>
-                        <div class="row"><p></p></div>
                         <div class="row">
                             <div class="col-sm-2">
                                 <p class="card-text">Last Year:</p>
@@ -38,7 +37,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row"><p></p></div>
                     <p class="card-text font-italic">Latest: {{ item.date }}</p>
                 </div>
             </div>

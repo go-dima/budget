@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 import { IReportEntry } from '../IReportEntry';
 import { BalanceReportService } from './balance-report.service';
 import { AccountsService } from '../accounts-filter/accounts.service';
-import Common from '../common';
 
 @Component({
   selector: 'pm-balance-report',
