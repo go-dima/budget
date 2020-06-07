@@ -12,6 +12,8 @@ export class BalanceReportService {
   accountGroups: Dictionary<ITransaction[]>;
   selectedCategories: string[];
   generatedReportSubject: ReplaySubject<IReportEntry[]> = new ReplaySubject<IReportEntry[]>(1);
+  sortBy: string = 'key';
+  sortOrder: string = 'asc';
   
   generateReport(groupByProperty: string): IReportEntry[] {
     let self = this;
@@ -29,7 +31,7 @@ export class BalanceReportService {
           }
         });
         self.report = _.values(self.report);
-        self.report = self.reorderReport('key', 'asc');
+        self.report = self.reorderReport(this.sortBy, this.sortOrder);
         self.generatedReportSubject.next(self.report);
         return self.report;
       }
@@ -84,7 +86,9 @@ export class BalanceReportService {
       }
 
       reorderReport(sortBy: string, sortOrder: string): IReportEntry[] {
-        return _.orderBy(this.report, sortBy, sortOrder);
+        this.sortBy = sortBy
+        this.sortOrder = sortOrder
+        return _.orderBy(this.report, this.sortBy, this.sortOrder);
       }
 
       selectedAccountsChanged(selectedAccounts: string[], groupByProperty: string) {
