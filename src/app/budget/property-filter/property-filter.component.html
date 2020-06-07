@@ -1,4 +1,8 @@
-<div *ngFor='let prop of properties' class="custom-control custom-checkbox">
+<div *ngFor='let prop of properties' [ngClass]="{
+      'custom-control': true,
+      'custom-checkbox': true,
+      'custom-control-inline': showInline
+    }">
   <input type="checkbox" name="prop"
          class="custom-control-input" id="{{prop.name}}-id"
          value="{{prop.name}}"

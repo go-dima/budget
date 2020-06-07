@@ -14,6 +14,7 @@ import Common from '../common';
 export class PropertyFilterComponent implements OnInit {
   @Input() filterProperty: string;
   @Input() customProperties: ReplaySubject<ICheckbox[]>;
+  @Input() showInline: boolean = false;
   @Output() selectedProperties: EventEmitter<string[]> = new EventEmitter<string[]>();
   properties: ICheckbox[];
   errorMessage: string;
