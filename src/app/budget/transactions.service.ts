@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { ITransaction } from "./ITransaction";
 import { throwError as observableThrowError,  Observable, of, ReplaySubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import readXlsxFile from 'read-excel-file';
+import { zipObject } from "lodash"
 
 @Injectable()
 export class TransactiosService {
@@ -34,11 +36,30 @@ export class TransactiosService {
     }
 
     uploadFile(fileToUpload: File){
-        let reader = new FileReader();
-        reader.onload = () => {
-            var uploadedTransactions: ITransaction[] = JSON.parse(reader.result.toString());
-            this.transactionsSubject.next(uploadedTransactions)
+        const lastDot = fileToUpload.name.lastIndexOf(".")
+        const fileType = fileToUpload.name.slice(lastDot + 1)
+        
+        if (fileType === 'json') {
+            const reader = new FileReader();
+            reader.onload = () => {
+                var uploadedTransactions: ITransaction[] = JSON.parse(reader.result.toString());
+                this.transactionsSubject.next(uploadedTransactions)
+            }
+            reader.readAsText(fileToUpload);
         }
-        reader.readAsText(fileToUpload);
+
+        if (fileType === 'xlsx') {
+            readXlsxFile(fileToUpload).then((rows: any[]) => {
+                const headerRow = rows[0];
+                var uploadedTransactions: ITransaction[] = []
+                rows.slice(1).forEach(row => {
+                    let t: ITransaction = <ITransaction><unknown>zipObject(headerRow, row)
+                    t.amount = parseInt(row[headerRow.indexOf('amount')], 10)
+                    t.balance = parseInt(row[headerRow.indexOf('balance')], 10)
+                    uploadedTransactions.push(t)
+                });
+                this.transactionsSubject.next(uploadedTransactions)
+            })
+        }
     }
 }

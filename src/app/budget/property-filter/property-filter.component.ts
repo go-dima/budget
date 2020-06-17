@@ -28,7 +28,8 @@ export class PropertyFilterComponent implements OnInit {
         transactions => {
           this.properties = _.uniqBy(transactions, this.filterProperty)
                             .map(transaction => transactionToCheckbox(transaction, self.filterProperty))
-                            .reverse();
+                            .sort((a, b) => b.name.localeCompare(a.name))
+                            .reverse()
           this.selectedPropertiesChanged(null);
         },
         error => this.errorMessage = error
