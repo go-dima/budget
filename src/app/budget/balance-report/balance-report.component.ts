@@ -14,7 +14,7 @@ export class BalanceReportComponent implements OnInit {
   readonly pageTitle: string = "Balance Report";
   report: IReportEntry[] = [];
   errorMessage: any;
-  readonly groupByProperties: string[] = ["date", "category"];
+  readonly groupByProperties: string[] = ["month", "year", "category"];
   groupByProperty: string = this.groupByProperties[0];
   showAverages: boolean = true;
 
