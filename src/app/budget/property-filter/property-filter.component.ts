@@ -15,6 +15,7 @@ export class PropertyFilterComponent implements OnInit {
   @Input() filterProperty: string;
   @Input() customProperties: ReplaySubject<ICheckbox[]>;
   @Input() showInline: boolean = false;
+  @Input() showToggleButton: boolean = true;
   @Output() selectedProperties: EventEmitter<string[]> = new EventEmitter<string[]>();
   properties: ICheckbox[];
   errorMessage: string;
@@ -49,6 +50,11 @@ export class PropertyFilterComponent implements OnInit {
     let checkedProperties = this.properties.filter((prop: ICheckbox) => prop.isChecked)
                                            .map(prop => prop.name);
     this.selectedProperties.emit(checkedProperties);
+  }
+
+  toggleSelection(selection: boolean) {
+    this.properties.forEach(prop => prop.isChecked = selection)
+    this.selectedPropertiesChanged(null)
   }
 }
 

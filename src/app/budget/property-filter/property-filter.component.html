@@ -1,3 +1,7 @@
+<div *ngIf='showToggleButton'>
+  <button type="button" class="btn btn-outline-primary btn-sm" (click)="toggleSelection(true)">All</button>
+  <button type="button" class="btn btn-outline-primary btn-sm" (click)="toggleSelection(false)">None</button>
+</div>
 <div *ngFor='let prop of properties' [ngClass]="{
       'custom-control': true,
       'custom-checkbox': true,
