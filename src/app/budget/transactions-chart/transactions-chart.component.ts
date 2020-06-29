@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ITransaction } from '../ITransaction';
-import { map, orderBy, groupBy, max } from 'lodash';
+import { map, orderBy, groupBy } from 'lodash';
 import { AccountsService } from '../accounts-filter/accounts.service';
 import DateUtils from '../date-utils';
-import * as CanvasJS from '../../../canvasjs.min.js';
 import * as _ from 'lodash';
 import Common from '../common';
 
@@ -49,7 +48,6 @@ export class TransactionsChartComponent implements OnInit {
       d => DateUtils.extractSortKey(d),
       'asc');
     
-    const canvasJsData = []
     const graphDataset = [];
     let colorIdx = 0;
     const groupedByAccount = groupBy(this._transactions, t => t.account)
@@ -77,17 +75,6 @@ export class TransactionsChartComponent implements OnInit {
         if (element.balance == 0)
           element.balance = previousBalance + element.amount
       }
-      let canvasJsDataset = {
-        type:"spline",
-        axisYType: "secondary",
-        name: account,
-        showInLegend: true,
-        markerSize: 0,
-        yValueFormatString: "₪#,###",
-        dataPoints: map(dateData, (t: ITransaction) => {
-          return { x: self.all_dates.indexOf(t.date), y: t.balance}
-        })
-      };
       const dataColor = self.calcColor(account, colorIdx)
       if (!account.includes("_")) colorIdx++
 
@@ -100,11 +87,9 @@ export class TransactionsChartComponent implements OnInit {
         borderColor: dataColor,
         backgroundColor: dataColor
       };
-      canvasJsData.push(canvasJsDataset)
       graphDataset.push(chartJsDataset)
     })
 
-    drawCanvasJSGraph(canvasJsData);
     this.drawChartJsGraph(graphDataset);
   }
 
@@ -146,29 +131,4 @@ export class TransactionsChartComponent implements OnInit {
   }
 }
 
-function drawCanvasJSGraph(chartData: any[]) {
-  var chart_canvasJs = new CanvasJS.Chart("chartContainer", {
-    title: {
-      text: "House Median Price"
-    },
-    // axisX: {
-    //   valueFormatString: "MMM YYYY"
-    // },
-    axisY2: {
-      title: "Median List Price",
-      prefix: "₪",
-      suffix: ""
-    },
-    toolTip: {
-      shared: true
-    },
-    legend: {
-      cursor: "pointer",
-      verticalAlign: "top",
-      horizontalAlign: "center",
-      dockInsidePlotArea: true,
-    },
-    data: chartData
-  });
-  chart_canvasJs.render();
 }
