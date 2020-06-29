@@ -88,22 +88,33 @@ export class TransactionsChartComponent implements OnInit {
           return { x: self.all_dates.indexOf(t.date), y: t.balance}
         })
       };
+      const dataColor = self.calcColor(account, colorIdx)
+      if (!account.includes("_")) colorIdx++
+
       let chartJsDataset = {
         data: map(dateData, (t: ITransaction) => {
           return { x: self.all_dates.indexOf(t.date), y: t.balance}
         }),
         label: account,
         fill: false,
-        borderColor: self.colorOptions[colorIdx],
-        backgroundColor: self.colorOptions[colorIdx]
+        borderColor: dataColor,
+        backgroundColor: dataColor
       };
-      colorIdx++
       canvasJsData.push(canvasJsDataset)
       graphDataset.push(chartJsDataset)
     })
 
     drawCanvasJSGraph(canvasJsData);
     this.drawChartJsGraph(graphDataset);
+  }
+
+  calcColor(toColor: string, idx: number): string {
+    if (!toColor.includes("_"))
+      return this.colorOptions[idx]
+
+    let ascii = toColor.split('').map(char => char.charCodeAt(0)).reduce((a,b) => a+b) % 256
+    console.log(toColor, ascii)
+    return `rgba(${3*ascii%256}, ${2*ascii%256}, ${ascii%256}, 0.6)`
   }
 
   private drawChartJsGraph(graphDataset: any[]) {
@@ -161,4 +172,3 @@ function drawCanvasJSGraph(chartData: any[]) {
   });
   chart_canvasJs.render();
 }
-
