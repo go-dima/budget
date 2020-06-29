@@ -1,6 +1,7 @@
 import { ITransaction } from "./ITransaction";
 import { ICheckbox } from "./ICheckbox";
 import DateUtils from "./date-utils";
+import { orderBy } from "lodash";
 
 export default class Common {
   static transactionToAccount(transaction: ITransaction): ICheckbox {
@@ -22,5 +23,13 @@ export default class Common {
    */
   static stringToCheckbox(property: string, isChecked: boolean = true): ICheckbox {
     return { name: property, isChecked: isChecked };
-  }  
+  }
+
+  static orderTransactions(transactions: ITransaction[]): ITransaction[] {
+    let sorted = orderBy(
+      transactions,
+      t => DateUtils.extractSortKey(t.date),
+      'asc');
+    return sorted;
+  }
 }

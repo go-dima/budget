@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ITransaction } from '../ITransaction';
-import { map, orderBy, groupBy } from 'lodash';
+import { map, orderBy, groupBy, max } from 'lodash';
 import { AccountsService } from '../accounts-filter/accounts.service';
 import DateUtils from '../date-utils';
+import * as CanvasJS from '../../../canvasjs.min.js';
+import * as _ from 'lodash';
+import Common from '../common';
 
 @Component({
   selector: 'pm-transactions-chart',
@@ -14,11 +17,12 @@ export class TransactionsChartComponent implements OnInit {
   @ViewChild('lineChart', {static: true}) private chartRef;
   chart: any;
   colorOptions: string[] = [
-    'rgba(0, 0, 255, 0.3)',
-    'rgba(0, 255, 0, 0.3)',
-    'rgba(255, 0, 0, 0.3)',
-    'rgba(255, 255, 255, 0.3)'
+    'rgba(0, 0, 255, 0.3)', // blue
+    'rgba(0, 255, 0, 0.3)', // green
+    'rgba(255, 0, 0, 0.3)', // red
+    'rgba(0, 0, 0, 0.3)' // black
   ];
+  all_dates: string[];
 
   _transactions: ITransaction[];
   @Input() get transactions(): ITransaction[] {
@@ -35,34 +39,74 @@ export class TransactionsChartComponent implements OnInit {
     this.redrawChart(this);
   }
 
-  orderTransactions(transactions: ITransaction[]): ITransaction[] {
-    let sorted = orderBy(
-      transactions,
-      t => DateUtils.extractSortKey(t.date),
-      'asc');
-    return sorted;
-  }
-
   redrawChart(self: TransactionsChartComponent) {
     let accounts = this._accountsService.selectedAccounts;
     if (accounts == undefined)
       return;
-      
-    let grouped = groupBy(this._transactions, t => t.account);
-    let graphDataset = [];
-    let maxData = 0;
+
+    self.all_dates = orderBy(
+      Object.keys(this._transactions.map(t => t.date).reduce((l, r) => l[r] = l, {})),
+      d => DateUtils.extractSortKey(d),
+      'asc');
+    
+    const canvasJsData = []
+    const graphDataset = [];
     let colorIdx = 0;
+    const groupedByAccount = groupBy(this._transactions, t => t.account)
     accounts.forEach(function (account) {
-      let dataset = {
-        data:  map(self.orderTransactions(grouped[account]), t => t.balance),
+      let dateData: ITransaction[] = []
+      let byDate = groupBy(groupedByAccount[account], t => t.date)
+      _.keys(byDate).forEach(date => {
+            const dateTotal = byDate[date].map(a => a.amount).reduce((a,b) => a + b, 0)
+            dateData.push({
+              account: account,
+              date: date,
+              amount: dateTotal,
+              balance: byDate[date].length > 1 ? 0 : byDate[date][0].balance,
+              category: "Daily",
+              comments: "",
+              description: "Daily",
+              reference: 0
+            })
+        }
+      )
+      dateData = Common.orderTransactions(dateData)
+      for (let index = 0; index < dateData.length; index++) {
+        const element: ITransaction = dateData[index];
+        const previousBalance = index > 0 ? dateData[index - 1].balance : 0
+        if (element.balance == 0)
+          element.balance = previousBalance + element.amount
+      }
+      let canvasJsDataset = {
+        type:"spline",
+        axisYType: "secondary",
+        name: account,
+        showInLegend: true,
+        markerSize: 0,
+        yValueFormatString: "₪#,###",
+        dataPoints: map(dateData, (t: ITransaction) => {
+          return { x: self.all_dates.indexOf(t.date), y: t.balance}
+        })
+      };
+      let chartJsDataset = {
+        data: map(dateData, (t: ITransaction) => {
+          return { x: self.all_dates.indexOf(t.date), y: t.balance}
+        }),
         label: account,
         fill: false,
-        backgroundColor: self.colorOptions[colorIdx++]
+        borderColor: self.colorOptions[colorIdx],
+        backgroundColor: self.colorOptions[colorIdx]
       };
-      graphDataset.push(dataset);
-      maxData = Math.max(maxData, dataset.data.length);
-    });
-    
+      colorIdx++
+      canvasJsData.push(canvasJsDataset)
+      graphDataset.push(chartJsDataset)
+    })
+
+    drawCanvasJSGraph(canvasJsData);
+    this.drawChartJsGraph(graphDataset);
+  }
+
+  private drawChartJsGraph(graphDataset: any[]) {
     // clear old data, if exists
     if (this.chart != undefined)
       this.chart.destroy();
@@ -70,7 +114,7 @@ export class TransactionsChartComponent implements OnInit {
     this.chart = new Chart(this.chartRef.nativeElement, {
       type: 'line',
       data: {
-        labels: new Array<string>(maxData),
+        labels: _.sortedUniq(_.flatMap(graphDataset, elem => _.flatMap(elem.data, elem => +elem.x)).sort((n1, n2) => n1 - n2)),
         datasets: graphDataset
       },
       options: {
@@ -80,7 +124,7 @@ export class TransactionsChartComponent implements OnInit {
         },
         scales: {
           xAxes: [{
-            display: true
+            display: false
           }],
           yAxes: [{
             display: true
@@ -90,3 +134,31 @@ export class TransactionsChartComponent implements OnInit {
     });
   }
 }
+
+function drawCanvasJSGraph(chartData: any[]) {
+  var chart_canvasJs = new CanvasJS.Chart("chartContainer", {
+    title: {
+      text: "House Median Price"
+    },
+    // axisX: {
+    //   valueFormatString: "MMM YYYY"
+    // },
+    axisY2: {
+      title: "Median List Price",
+      prefix: "₪",
+      suffix: ""
+    },
+    toolTip: {
+      shared: true
+    },
+    legend: {
+      cursor: "pointer",
+      verticalAlign: "top",
+      horizontalAlign: "center",
+      dockInsidePlotArea: true,
+    },
+    data: chartData
+  });
+  chart_canvasJs.render();
+}
+
