@@ -54,7 +54,7 @@ export class TransactionsComponent implements OnInit {
       const byCategory = this.selectedCategories
                              ? byAccount.filter((transaction: ITransaction) => this.selectedCategories.includes(transaction.category))
                              : byAccount
-      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byCategory, filterBy) : byCategory, Common.transactionDateKey, 'desc');
+      this.filteredTransactions = orderBy(this.listFilter ? this.applyCaregoryFilter(byCategory, filterBy) : byCategory, Common.transactionSortKey, 'desc');
   }
 
   applyCaregoryFilter(toFilter: ITransaction[], filterBy: string): ITransaction[] {

@@ -39,13 +39,11 @@ export class AccountsSummaryComponent implements OnInit {
     this._transactionsService.getAllTransactions().subscribe(
       transactions => {
         this.reset();
-        this.orderedTransactions = orderBy(transactions, Common.transactionDateKey, 'desc');
+        this.orderedTransactions = orderBy(transactions, Common.transactionSortKey, 'desc');
         const yearAgo: string = yearBack(this.orderedTransactions[0].date);
         this.yearlyTransactions = this.orderedTransactions.filter((t: ITransaction) => DateUtils.isBigger(t.date, yearAgo))
 
-        let relevantPropertiesSet: Set<string> = new Set();
-        this.yearlyTransactions.forEach(transaction => { relevantPropertiesSet.add(transaction.category) })
-
+        const relevantPropertiesSet: Set<string> = new Set(this.yearlyTransactions.map(transaction => transaction.category));
         this.relevantProperties.next(Array.from(relevantPropertiesSet.values())
                                           .map(c => Common.stringToCheckbox(c, !this.uncheckedCategories.includes(c))))
 
