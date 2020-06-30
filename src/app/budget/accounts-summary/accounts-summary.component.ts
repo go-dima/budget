@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TransactiosService } from '../transactions.service';
-import { uniqBy, orderBy } from 'lodash';
+import { orderBy, uniqBy } from 'lodash';
+import { ReplaySubject } from 'rxjs';
 import Common from '../common';
 import DateUtils from '../date-utils';
-import { ITransaction } from '../ITransaction';
 import { IAccountSummary } from '../IAccountSummary';
-import { ReplaySubject } from 'rxjs';
 import { ICheckbox } from '../ICheckbox';
+import { ITransaction } from '../ITransaction';
+import { TransactiosService } from '../transactions.service';
 
 @Component({
   selector: 'pm-accounts-summary',
@@ -47,7 +47,9 @@ export class AccountsSummaryComponent implements OnInit {
         this.relevantProperties.next(Array.from(relevantPropertiesSet.values())
                                           .map(c => Common.stringToCheckbox(c, !this.uncheckedCategories.includes(c))))
 
-        this.accounts.push(...uniqBy(this.orderedTransactions, 'account').map(accountSummary))
+        this.accounts.push(...uniqBy(this.orderedTransactions, 'account')
+                           .filter(t => Common.isSpecialAccount(t.account))
+                           .map(accountSummary))
         this.dataLoaded = true
         this.reload();
       });

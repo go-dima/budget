@@ -58,7 +58,7 @@ export class TransactionsChartComponent implements OnInit {
                         Common.transactionSortKey,
                         'asc'))
             const dataColor = self.calcColor(account, colorIdx)
-            if (!account.includes("_"))
+            if (Common.isSpecialAccount(account))
                 colorIdx++
 
             return {
@@ -73,7 +73,7 @@ export class TransactionsChartComponent implements OnInit {
     }
 
     calcColor(toColor: string, idx: number): string {
-        if (!toColor.includes("_"))
+        if (Common.isSpecialAccount(toColor))
             return this.colorOptions[idx]
 
         const ascii = toColor.split('').map(char => char.charCodeAt(0)).reduce((a, b) => a + b) % 256

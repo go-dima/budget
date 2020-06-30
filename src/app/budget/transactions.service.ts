@@ -1,24 +1,22 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { ITransaction } from "./ITransaction";
-import { throwError as observableThrowError,  Observable, of, ReplaySubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { cloneDeep, flatMap, orderBy, zipObject } from 'lodash';
 import readXlsxFile from 'read-excel-file';
-import { zipObject } from "lodash"
+import { Observable, ReplaySubject, throwError as observableThrowError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import Common from './common';
+import { ITransaction } from './ITransaction';
 
 @Injectable()
 export class TransactiosService {
     private _transactionsUrl = './api/transactions/transactions.json';
     private transactionsSubject = new ReplaySubject<ITransaction[]>(1);
+    private specialCategories = ["קופת גמל", "חיסכון", "השקעה"]
 
     constructor(private _http: HttpClient) {
         this._http.get<ITransaction[]>(this._transactionsUrl)
                   .pipe(catchError(this.handleError))
-                  .subscribe(
-                    transactions => {
-                          this.transactionsSubject.next(transactions);
-                      },
-                  );
+                  .subscribe(transactions => { this.publish(transactions) });
     }
 
     getAllTransactions(): Observable<ITransaction[]>{
@@ -42,8 +40,8 @@ export class TransactiosService {
         if (fileType === 'json') {
             const reader = new FileReader();
             reader.onload = () => {
-                var uploadedTransactions: ITransaction[] = JSON.parse(reader.result.toString());
-                this.transactionsSubject.next(uploadedTransactions)
+                const uploadedTransactions: ITransaction[] = JSON.parse(reader.result.toString());
+                this.publish(uploadedTransactions)
             }
             reader.readAsText(fileToUpload);
         }
@@ -51,15 +49,35 @@ export class TransactiosService {
         if (fileType === 'xlsx') {
             readXlsxFile(fileToUpload).then((rows: any[]) => {
                 const headerRow = rows[0];
-                var uploadedTransactions: ITransaction[] = []
-                rows.slice(1).forEach(row => {
+                const uploadedTransactions: ITransaction[] = rows.slice(1).map(row => {
                     let t: ITransaction = <ITransaction><unknown>zipObject(headerRow, row)
                     t.amount = parseInt(row[headerRow.indexOf('amount')], 10)
                     t.balance = parseInt(row[headerRow.indexOf('balance')], 10)
-                    uploadedTransactions.push(t)
+                    return t
                 });
-                this.transactionsSubject.next(uploadedTransactions)
+                this.publish(uploadedTransactions)
             })
         }
+    }
+
+    publish(transactions: ITransaction[]) {
+        transactions = transactions.concat(this.parseSpecial(transactions))
+        this.transactionsSubject.next(transactions)
+    }
+
+    private parseSpecial(uploadedTransactions: ITransaction[]): ITransaction[] {
+        return flatMap(this.specialCategories, (category: string) => {
+            const specialTransactions = uploadedTransactions.filter(t => t.category == category).map(cloneDeep);
+            const sortedTransactions = orderBy(specialTransactions, Common.transactionSortKey, 'asc');
+            sortedTransactions.forEach((t: ITransaction) => {
+                t.account = '_' + t.category + '_';
+                t.balance = -t.amount;
+                t.amount = -t.amount;
+            });
+            for (let i = 1; i < sortedTransactions.length; i++) {
+                sortedTransactions[i].balance += sortedTransactions[i - 1].balance;
+            }
+            return sortedTransactions
+        })
     }
 }

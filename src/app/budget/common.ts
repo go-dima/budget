@@ -23,4 +23,8 @@ export default class Common {
   static stringToCheckbox(property: string, isChecked: boolean = true): ICheckbox {
     return { name: property, isChecked: isChecked };
   }
+
+  static isSpecialAccount(account: string): boolean {
+    return !account.includes("_");
+  }
 }
