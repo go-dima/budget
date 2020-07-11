@@ -86,7 +86,7 @@
         "category": "הכנסה",
         "reference": "68854",
         "amount": 4000,
-        "balance": 800,
+        "balance": -1200,
         "comments": ""
     },
     {
@@ -97,6 +97,26 @@
         "reference": "68771",
         "amount": 2000,
         "balance": 400,
+        "comments": ""
+    },
+    {
+        "account": "Alice",
+        "date": "01/02/2018",
+        "description": "",
+        "category": "השקעה",
+        "reference": "5771",
+        "amount": -2000,
+        "balance": -5200,
+        "comments": ""
+    },
+    {
+        "account": "Alice",
+        "date": "01/10/2018",
+        "description": "",
+        "category": "ביטוח",
+        "reference": "99982",
+        "amount": -500,
+        "balance": -1700,
         "comments": ""
     }
 ]
