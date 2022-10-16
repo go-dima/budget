@@ -13,6 +13,7 @@ import { TransactionsChartComponent } from './transactions-chart/transactions-ch
 import { ConvertToDisplayClassPipe } from '../shared/convert-to-display-class.pipe';
 import { AccountsSummaryComponent } from './accounts-summary/accounts-summary.component';
 import { AppCurrencyPipe } from '../shared/app-currency.pipe';
+import { DateLimitComponent } from './date-limit/date-limit.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { AppCurrencyPipe } from '../shared/app-currency.pipe';
     TransactionsChartComponent,
     ConvertToDisplayClassPipe,
     AccountsSummaryComponent,
-    AppCurrencyPipe
+    AppCurrencyPipe,
+    DateLimitComponent
   ],
   providers: [
     TransactiosService,
